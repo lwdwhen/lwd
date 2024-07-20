@@ -1,3 +1,5 @@
+console.log('GH LwdHashRouter')
+
 class LwdHashRouter {
   static params = {};
   static href = "";
