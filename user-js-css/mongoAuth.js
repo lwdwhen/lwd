@@ -9,7 +9,7 @@ const findUrl = () =>
   `https://${regionMongo}.${providerMongo}.data.mongodb-api.com/app/${projectIdMongo}/endpoint/data/v1/action/findOne`;
 
 async function autorize(e) {
-  let btn = e.target;
+  btn = document.querySelector("[name=login]")
   btn.setAttribute("disabled", true);
   mongoUrl = document.querySelector("[name=mongoUrl]").value;
   username = document.querySelector("[name=username]").value;
