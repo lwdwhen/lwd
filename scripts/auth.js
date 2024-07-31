@@ -1,37 +1,42 @@
-var accessToken = localStorage.getItem("accessToken");
-var projectIdMongo = localStorage.getItem("projectIdMongo");
-var providerMongo = localStorage.getItem("providerMongo");
-var regionMongo = localStorage.getItem("regionMongo");
+var mongoAccessToken = localStorage.getItem("mongoAccessToken");
+var mongoProjectId = localStorage.getItem("mongoProjectId");
+var mongoProvider = localStorage.getItem("mongoProvider");
+var mongoRegion = localStorage.getItem("mongoRegion");
+
+var imgbbApiKey = localStorage.getItem("imgbbApiKey");
 
 const authUrl = () =>
-  `https://${regionMongo}.${providerMongo}.services.cloud.mongodb.com/api/client/v2.0/app/${projectIdMongo}/auth/providers/local-userpass/login`;
+  `https://${mongoRegion}.${mongoProvider}.services.cloud.mongodb.com/api/client/v2.0/app/${mongoProjectId}/auth/providers/local-userpass/login`;
 const findUrl = () =>
-  `https://${regionMongo}.${providerMongo}.data.mongodb-api.com/app/${projectIdMongo}/endpoint/data/v1/action/findOne`;
+  `https://${mongoRegion}.${mongoProvider}.data.mongodb-api.com/app/${mongoProjectId}/endpoint/data/v1/action/findOne`;
+const mongoApiUrl = (action) =>
+  `https://${mongoRegion}.${mongoProvider}.data.mongodb-api.com/app/${mongoProjectId}/endpoint/data/v1/action/${action}`;
 
 async function autorize(e) {
-  btn = document.querySelector("[name=login]")
+  btn = document.querySelector("[name=login]");
   btn.setAttribute("disabled", true);
   mongoUrl = document.querySelector("[name=mongoUrl]").value;
   username = document.querySelector("[name=username]").value;
   password = document.querySelector("[name=password]").value;
+  imgbbApiKey = document.querySelector("[name=imgbbApiKey]").value;
 
-  projectIdMongo = mongoUrl.match(/\/data-[\w-]*/)[0].slice(1);
-  regionDotProvider = mongoUrl.match(/\/\/[\w-]*\.[\w]*/)[0].slice(2);
-  providerMongo = regionDotProvider.split(".")[1];
-  regionMongo = regionDotProvider.split(".")[0];
+  mongoProjectId = mongoUrl.match(/\/data-[\w-]*/)[0].slice(1);
+  mongoRegionDotProvider = mongoUrl.match(/\/\/[\w-]*\.[\w]*/)[0].slice(2);
+  mongoProvider = mongoRegionDotProvider.split(".")[1];
+  mongoRegion = mongoRegionDotProvider.split(".")[0];
 
   response = await fetch(authUrl(), {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    // headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
   });
 
   btn.removeAttribute("disabled");
-  accessToken = await response.json().then((data) => data.access_token);
-  localStorage.setItem("accessToken", accessToken);
-  localStorage.setItem("projectIdMongo", projectIdMongo);
-  localStorage.setItem("providerMongo", providerMongo);
-  localStorage.setItem("regionMongo", regionMongo);
+  mongoAccessToken = await response.json().then((data) => data.access_token);
+  localStorage.setItem("mongoAccessToken", mongoAccessToken);
+  localStorage.setItem("mongoProjectId", mongoProjectId);
+  localStorage.setItem("mongoProvider", mongoProvider);
+  localStorage.setItem("mongoRegion", mongoRegion);
 
   if (response.ok) location.reload();
 }
@@ -39,18 +44,18 @@ async function autorize(e) {
 async function isAutorized() {
   return fetch(findUrl(), {
     method: "POST",
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { Authorization: `Bearer ${mongoAccessToken}` },
     // headers: {
     //   "Content-Type": "application/json",
     //   "Access-Control-Request-Headers": "*",
-    //   Authorization: `Bearer ${access_token}`,
+    //   Authorization: `Bearer ${mongoAccessToken}`,
     //   Accept: "application/json",
     // },
     body: JSON.stringify({
       dataSource: "lwd",
       database: "lwd",
       collection: "images",
-      // projection: { _id: 1 },
+      projection: { _id: 1 },
     }),
   })
     .then((r) => r.ok)
