@@ -30,7 +30,7 @@ async function autorize(e) {
 
   response = await fetch(authUrl(), {
     method: "POST",
-    // headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
   });
 
@@ -45,24 +45,28 @@ async function autorize(e) {
 }
 
 async function isAutorized() {
-  return fetch(findUrl(), {
-    method: "POST",
-    headers: { Authorization: `Bearer ${mongoAccessToken}` },
-    // headers: {
-    //   "Content-Type": "application/json",
-    //   "Access-Control-Request-Headers": "*",
-    //   Authorization: `Bearer ${mongoAccessToken}`,
-    //   Accept: "application/json",
-    // },
-    body: JSON.stringify({
-      dataSource: "lwd",
-      database: "lwd",
-      collection: "images",
-      projection: { _id: 1 },
-    }),
-  })
-    .then((r) => r.ok)
-    .catch(() => false);
+  try {
+    return fetch(findUrl(), {
+      method: "POST",
+      headers: { Authorization: `Bearer ${mongoAccessToken}` },
+      // headers: {
+      //   "Content-Type": "application/json",
+      //   "Access-Control-Request-Headers": "*",
+      //   Authorization: `Bearer ${mongoAccessToken}`,
+      //   Accept: "application/json",
+      // },
+      body: JSON.stringify({
+        dataSource: "lwd",
+        database: "lwd",
+        collection: "images",
+        projection: { _id: 1 },
+      }),
+    })
+      .then((r) => r.ok)
+      .catch(() => false);
+  } catch (e) {
+    return false;
+  }
 }
 
 // document.querySelector("button").onclick = autorize;
