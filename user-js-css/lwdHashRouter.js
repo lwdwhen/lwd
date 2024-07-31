@@ -113,17 +113,17 @@ class LwdHashRouter {
     LwdHashRouter.refresh();
   });
   
-  class LwdHashLink extends LwdHTML {
-    constructor(attrs = { hash: {} }) {
-      super("a", attrs);
-      if (this.hash && !attrs.href)
-        this.href = LwdHashRouter.stringifyLocationHash(this.hash);
+//   class LwdHashLink extends LwdHTML {
+//     constructor(attrs = { hash: {} }) {
+//       super("a", attrs);
+//       if (this.hash && !attrs.href)
+//         this.href = LwdHashRouter.stringifyLocationHash(this.hash);
   
-      this.onclick = (e) => {
-        e.preventDefault();
-        if(this.quiet) LwdHashRouter.params = this.hash;
-        location.hash = LwdHashRouter.stringifyLocationHash(this.hash);
-      };
-    }
-  }
+//       this.onclick = (e) => {
+//         e.preventDefault();
+//         if(this.quiet) LwdHashRouter.params = this.hash;
+//         location.hash = LwdHashRouter.stringifyLocationHash(this.hash);
+//       };
+//     }
+//   }
   

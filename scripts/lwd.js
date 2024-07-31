@@ -1,4 +1,5 @@
-if (await isAutorized()) createLwd();
+console.log(await isAutorized());
+// createLwd();
 
 function createLwd() {
   document.body.outerHTML = "<body></body>";
