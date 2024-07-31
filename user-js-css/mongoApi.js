@@ -1,9 +1,9 @@
-var mongoAccessToken = localStorage.getItem("mongoAccessToken");
-var mongoProjectId = localStorage.getItem("mongoProjectId");
-var mongoProvider = localStorage.getItem("mongoProvider");
-var mongoRegion = localStorage.getItem("mongoRegion");
+mongoAccessToken = localStorage.getItem("mongoAccessToken");
+mongoProjectId = localStorage.getItem("mongoProjectId");
+mongoProvider = localStorage.getItem("mongoProvider");
+mongoRegion = localStorage.getItem("mongoRegion");
 
-const mongoApiUrl = (action) =>
+mongoApiUrl = (action) =>
   `https://${mongoRegion}.${mongoProvider}.data.mongodb-api.com/app/${mongoProjectId}/endpoint/data/v1/action/${action}`;
 
 function fetchAPI(collection, data) {
@@ -28,4 +28,8 @@ function fetchAPI(collection, data) {
       throw error;
     }
   });
+}
+
+function llog() {
+  console.log("declared in mongoApi");
 }

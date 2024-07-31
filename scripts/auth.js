@@ -1,17 +1,20 @@
-var mongoAccessToken = localStorage.getItem("mongoAccessToken");
-var mongoProjectId = localStorage.getItem("mongoProjectId");
-var mongoProvider = localStorage.getItem("mongoProvider");
-var mongoRegion = localStorage.getItem("mongoRegion");
+mongoAccessToken = localStorage.getItem("mongoAccessToken");
+mongoProjectId = localStorage.getItem("mongoProjectId");
+mongoProvider = localStorage.getItem("mongoProvider");
+mongoRegion = localStorage.getItem("mongoRegion");
 
-var imgbbApiKey = localStorage.getItem("imgbbApiKey");
+imgbbApiKey = localStorage.getItem("imgbbApiKey");
 
-const authUrl = () =>
+authUrl = () =>
   `https://${mongoRegion}.${mongoProvider}.services.cloud.mongodb.com/api/client/v2.0/app/${mongoProjectId}/auth/providers/local-userpass/login`;
-const findUrl = () =>
+findUrl = () =>
   `https://${mongoRegion}.${mongoProvider}.data.mongodb-api.com/app/${mongoProjectId}/endpoint/data/v1/action/findOne`;
-const mongoApiUrl = (action) =>
+mongoApiUrl = (action) =>
   `https://${mongoRegion}.${mongoProvider}.data.mongodb-api.com/app/${mongoProjectId}/endpoint/data/v1/action/${action}`;
 
+function llog() {
+  console.log("declared in mongoApi");
+}
 async function autorize(e) {
   btn = document.querySelector("[name=login]");
   btn.setAttribute("disabled", true);
