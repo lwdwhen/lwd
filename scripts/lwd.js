@@ -14,12 +14,42 @@ async function login() {
 
   Mongo.auth(username, password).then((data) => {
     document.querySelector("[name=login]").removeAttribute("disabled");
-    if(data)location.reload();
+    if (data) location.reload();
   });
 }
 
 async function createLwd() {
   document.body.outerHTML = "<body></body>";
   allTags = JSON.parse(localStorage.getItem("allTags")) || [];
-}
 
+  const categoriesOrder = {
+    artist: 1,
+    copyright: 2,
+    character: 3,
+    species: 4,
+    general: 5,
+    unknown: 6,
+    lore: 7,
+    meta: 8,
+    invalid: 9,
+  };
+  const ratings = ["general", "sensitive", "questionable", "explicit"];
+
+  // lastSearch = undefined;
+  // deleteMode = false;
+  // sortBy = LwdHashRouter.get("sortBy");
+  // sortDirection = LwdHashRouter.get("sortDirection");
+  // ratingFilter = "";
+  // imageList = [];
+  allTags = JSON.parse(localStorage.getItem("allTags")) || [];
+  // watchlists = [];
+  // formatedTags = JSON.parse(localStorage.getItem("formatedTags"));
+
+  // autocompleteTags = allTags.map((tag) => ({
+  //   textContent: tag.name,
+  //   className: tag.category,
+  // }));
+
+  document.body.append((sideSection = createSideSection()));
+  document.body.append((topSection = createTopSection()));
+}

@@ -1,0 +1,118 @@
+#side-section-pin {
+    background: rgb(53 44 111 / 80%);
+    min-width: 4px;
+    cursor: pointer;
+}
+
+#side-section-content {
+    flex: 1;
+    padding: 8px 2px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#tag-list {
+    overflow: auto;
+    overflow-x: hidden;
+    max-height: 100%;
+}
+
+#tag-list h4 {
+    text-transform: capitalize;
+    font-size: larger;
+    color: white;
+}
+
+#tag-list li {
+    display: flex !important;
+}
+
+#tag-list li p {
+    margin: 2px;
+    line-height: normal;
+    cursor: pointer;
+    display: inline;
+}
+
+#tag-list li p>p {
+    color: #999;
+}
+
+#tag-list .artist li {
+    color: gold;
+}
+
+#tag-list .copyright li {
+    color: fuchsia;
+}
+
+#tag-list .character li {
+    color: greenyellow;
+}
+
+#tag-list .species li {
+    color: lightgreen;
+}
+
+#tag-list .general li {
+    color: lightblue;
+}
+
+#tag-list .unknown li {
+    color: lightsalmon;
+}
+
+#tag-list .lore li {
+    color: blue;
+}
+
+#tag-list .meta li {
+    color: darkgrey;
+}
+
+#tag-list .invalid li {
+    color: palevioletred;
+}
+
+form#image-data [type=text][lwd] {
+    height: auto !important;
+}
+
+form#image-data tile[lwd] {
+    display: inline-block;
+    margin: 0 4px;
+}
+
+#ai-tags-modal {
+    top: 0;
+    left: 110%;
+    height: calc(100% - 40px);
+    width: 170px;
+    padding-bottom: 40px;
+}
+
+#ai-tags-modal .checkOrUncheck {
+    display: flex;
+    justify-content: space-around;
+}
+
+#ai-tags-modal .checkOrUncheck tile[lwd] {
+    width: auto;
+    margin: 0;
+}
+
+#ai-tags-modal input[type='checkbox'] {
+    display: inline !important;
+}
+
+#ai-tags-modal label {
+    display: inline-block !important;
+}
+
+#ai-tags-modal label.dupe {
+    margin-left: 20px;
+}
+
+#ai-tags-modal .action tile[lwd] {
+    width: 100%;
+}
