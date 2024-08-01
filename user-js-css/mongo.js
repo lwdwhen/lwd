@@ -42,7 +42,7 @@ class Mongo {
         }
       })
       .catch((e) => {
-        console.error("Mongo.auth: ", response);
+        console.error("Mongo.auth: ", e);
         return false;
       });
   }
