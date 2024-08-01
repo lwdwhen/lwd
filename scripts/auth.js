@@ -77,3 +77,5 @@ async function isAutorized() {
 // https://data.mongodb-api.com/app/data-isconam/endpoint/data/v1
 // mongoUrl = https://sa-east-1.aws.services.cloud.mongodb.com/api/client/v2.0/app/data-isconam/auth/providers/local-userpass/login
 // 		  'https://sa-east-1.aws.data.mongodb-api.com/app/data-isconam/endpoint/data/v1/action/
+
+class test {}

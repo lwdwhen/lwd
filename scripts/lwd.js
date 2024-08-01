@@ -5,3 +5,5 @@ async function createLwd() {
   document.body.outerHTML = "<body></body>";
   allTags = JSON.parse(localStorage.getItem("allTags")) || [];
 }
+
+class test {}
