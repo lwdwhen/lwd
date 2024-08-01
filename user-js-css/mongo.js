@@ -27,16 +27,24 @@ class Mongo {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
     })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        Mongo.accessToken = responseJson.access_token;
-        localStorage.setItem("mongoAccessToken", Mongo.accessToken)
-        localStorage.setItem("mongoProjectId", Mongo.projectId)
-        localStorage.setItem("mongoProvider", Mongo.provider)
-        localStorage.setItem("mongoRegion", Mongo.region)
-        return responseJson;
+      .then(async (response) => {
+        if (response.ok) {
+          responseJson = response.json();
+          Mongo.accessToken = responseJson.access_token;
+          localStorage.setItem("mongoAccessToken", Mongo.accessToken);
+          localStorage.setItem("mongoProjectId", Mongo.projectId);
+          localStorage.setItem("mongoProvider", Mongo.provider);
+          localStorage.setItem("mongoRegion", Mongo.region);
+          return responseJson;
+        } else {
+          console.error("Mongo.auth: ", response);
+          return false;
+        }
       })
-      .catch((e) => false);
+      .catch((e) => {
+        console.error("Mongo.auth: ", response);
+        return false;
+      });
   }
 
   static async find(collection, data) {
