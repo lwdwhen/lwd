@@ -29,7 +29,7 @@ class Mongo {
     })
       .then(async (response) => {
         if (response.ok) {
-          responseJson = response.json();
+          responseJson = await response.json();
           Mongo.accessToken = responseJson.access_token;
           localStorage.setItem("mongoAccessToken", Mongo.accessToken);
           localStorage.setItem("mongoProjectId", Mongo.projectId);
