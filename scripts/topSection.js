@@ -6,18 +6,23 @@ function createTopSection() {
   topSection.onmouseenter = (e) => e.target.classList.add("expanded");
   topSection.onmouseleave = (e) => e.target.classList.remove("expanded");
 
-  topSection.append(createGalerySearch())
-//   topSection.append(createNavMenu());
+  topSection.append(createGalerySearch());
+  //   topSection.append(createNavMenu());
 
   return topSection;
 }
 
 function createGalerySearch() {
   seachForm = document.createElement("form");
-//   document.querySelector("#top-section").append(seachForm);
+  //   document.querySelector("#top-section").append(seachForm);
   seachForm.id = "search";
 
-  topSearch = new LwdAutocomplete(autocompleteTags);
+  topSearch = new LwdAutocomplete(
+    allTags.map((tag) => ({
+      textContent: tag.name,
+      className: tag.category,
+    }))
+  );
   topSearch.id = "top-search";
   seachForm.append(topSearch);
 
