@@ -35,28 +35,28 @@ function createGalerySearch() {
     routeToGaleryPage(topSearch.value);
   };
 
-  sortBySelection = document.createElement("select");
-  seachForm.append(sortBySelection);
-  sortBySelection.id = "sort-by";
+  // sortBySelection = document.createElement("select");
+  // seachForm.append(sortBySelection);
+  // sortBySelection.id = "sort-by";
 
-  renderSortOption("Organized Date", "name");
-  renderSortOption("Added Date", "createdAt");
-  renderSortOption("Posted Date", "date");
-  renderSortOption("Score", "score");
+  // renderSortOption("Organized Date", "name");
+  // renderSortOption("Added Date", "createdAt");
+  // renderSortOption("Posted Date", "date");
+  // renderSortOption("Score", "score");
 
-  filterSelection = document.createElement("select");
-  seachForm.append(filterSelection);
-  filterSelection.id = "filter-by";
+  // filterSelection = document.createElement("select");
+  // seachForm.append(filterSelection);
+  // filterSelection.id = "filter-by";
 
   return seachForm;
 }
 
-function renderSortOption(text, value) {
-  option = document.createElement("option");
-  document.querySelector("#sort-by").append(option);
-  option.textContent = text;
-  option.value = value;
-}
+// function renderSortOption(text, value) {
+//   option = document.createElement("option");
+//   document.querySelector("#sort-by").append(option);
+//   option.textContent = text;
+//   option.value = value;
+// }
 
 // function createNavMenu() {
 //   navMenu = document.createElement("nav");
