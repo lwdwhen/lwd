@@ -6,7 +6,7 @@ var galeryPage,
   loadedPage,
   lastPage;
 const pageSize = 72;
-const sortBy = false;
+const sortBy, sortDirection = false;
 
 function createGaleryPage() {
   galeryPage = document.querySelector(`page[href='galery']`);
