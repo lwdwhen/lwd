@@ -56,4 +56,13 @@ async function renderLwd(){
   
   document.body.append((sideSection = createSideSection()));
   document.body.append((topSection = createTopSection()));
+
+  pagesDefinitions = [
+    { href: "galery", onCreate: createGaleryPage, onRender: renderGaleryPage },
+    // { href: "manage/tags", onCreate: () => {}, onRender: renderTagManagement },
+    // { href: "watchlist", onCreate: () => {}, onRender: renderWatchlistPage },
+  ];
+  // LwdHashRouter.createPages(pagesDefinitions, (params) => new LwdPage(params));
+  
+  LwdHashRouter.createPages(pagesDefinitions)
 }

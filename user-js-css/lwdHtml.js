@@ -158,14 +158,15 @@ class LwdGalery extends LwdHTML {
   constructor(items, attrs = {}) {
     super("galery", attrs);
     this.focusItem = (item) => {
-      console.log('focusItem', items, item, this.items.indexOf(item))
+      console.log("focusItem", items, item, this.items.indexOf(item));
       this.focusedItem = item;
-      this.focusImageElement.src = item.src || item.thumb || item.imgOriginal || item.imageUrl;
+      this.focusImageElement.src =
+        item.src || item.thumb || item.imgOriginal || item.imageUrl;
       this.focusImageElement.style.zoom = item.zoom || "100%";
       this.focusContainer.hidden = false;
       this.focusContainer.className = item.className || "focus-container";
 
-      let itemIndex = this.items.findIndex((i) => item._id == i._id)
+      let itemIndex = this.items.findIndex((i) => item._id == i._id);
       let nextItem = this.items[itemIndex + 1];
       this.nextBtn.hidden = !nextItem;
       if (nextItem) this.nextBtn.onclick = () => this.focusNextItem(nextItem);
@@ -203,7 +204,8 @@ class LwdGalery extends LwdHTML {
       let img = document.createElement("img");
       frame.prepend(img);
       if (item.id) img.id = item.id;
-      if (item.thumb || item.src || item.thumbUrl) img.src = item.thumb || item.src || item.thumbUrl;
+      if (item.thumb || item.src || item.thumbUrl)
+        img.src = item.thumb || item.src || item.thumbUrl;
     });
 
     this.focusContainer = document.createElement("div");
@@ -226,6 +228,20 @@ class LwdGalery extends LwdHTML {
     this.imgControl = new LwdImgControl(attrs.imgControl);
     this.focusContainer.append(this.imgControl);
     LwdImgControl.proximityOpacity(this.focusContainer, this.imgControl);
+  }
+}
+
+class LwdHashLink extends LwdHTML {
+  constructor(attrs = { hash: {} }) {
+    super("a", attrs);
+    if (this.hash && !attrs.href)
+      this.href = LwdHashRouter.stringifyLocationHash(this.hash);
+
+    this.onclick = (e) => {
+      e.preventDefault();
+      if (this.quiet) LwdHashRouter.params = this.hash;
+      location.hash = LwdHashRouter.stringifyLocationHash(this.hash);
+    };
   }
 }
 
@@ -493,3 +509,121 @@ class LwdTile extends LwdHTML {
     );
   }
 }
+
+class LwdHashRouter {
+  static params = {};
+  static href = "";
+
+  static parseLocationHash = () =>
+    Object.fromEntries(
+      location.hash
+        .slice(1)
+        .split("&")
+        .map((h) => h.split("="))
+        .filter(([key, ...value]) => !!key)
+    );
+
+  static stringifyLocationHash = (params) =>
+    Object.entries(params)
+      .map((p) => p.join("="))
+      .join("&");
+
+  static updateLocationHash = () =>
+    (location.hash = Object.entries(this.params)
+      .map((p) => p.join("="))
+      .join("&"));
+
+  static get(key) {
+    return this.params[key] ? decodeURI(this.params[key]) : "";
+  }
+
+  static set(key, value) {
+    // if (value) this.params[key] = value;
+    // else delete this.params[key];
+
+    // this.updateLocationHash();
+
+    if (value) {
+      location.hash = Object.entries({ ...this.params, [key]: value })
+        .map((p) => p.join("="))
+        .join("&");
+    } else delete this.params[key];
+  }
+
+  static delete(key) {
+    delete this.params[key];
+    this.updateLocationHash();
+  }
+
+  static clear() {
+    this.params = { href: this.params.href };
+    this.updateLocationHash();
+  }
+
+  static createPage({ href }) {
+    let page = document.createElement("page");
+    page.setAttribute("href", href);
+    return page;
+  }
+
+  // pagesDefinitions = [{ href, onCreate, onRender }]
+  static createPages(
+    pagesDefinitions,
+    funcCreatePage = (params) => new LwdPage(params)
+  ) {
+    pagesDefinitions.forEach((params) => {
+      document.body.append(funcCreatePage(params));
+      params.onCreate();
+    });
+    LwdHashRouter.refresh();
+    // // href: 'lwd', onCreate: () => {}, onRender: () => {}
+    // Object.entries(pathsAndFunctions).forEach(([href, routingFunction]) => {
+    //   let pageLoadFunc = () =>{
+    //     this.displayPage(href)
+    //     routingFunction()
+    //   }
+
+    //   document.querySelector("main").append(funcCreatePage({ href, pageLoadFunc }));
+
+    //   this[routingFunction.name] = async () => {
+    //     LwdGenericRouter.displayPage(pathname);
+    //     routingFunction(params);
+    //   };
+
+    // });
+
+    // if (this.get('page') == pathname)
+    //     setTimeout(() => this[routingFunction.name](this.hashParams), 5);
+  }
+
+  static hideAllPages() {
+    document.querySelectorAll("page").forEach((page) => (page.hidden = true));
+  }
+
+  static displayPage(href) {
+    this.hideAllPages();
+    let page = document.querySelector(`page[href='${href}']`);
+    console.log("displayPage", href, page);
+    if (page) page.hidden = false;
+    if (page) page.onRender();
+    this.href = href;
+    this.set("href", href);
+  }
+
+  static locationHashDiffParams() {
+    return (
+      JSON.stringify(this.params) === JSON.stringify(this.parseLocationHash())
+    );
+  }
+  static refresh() {
+    if (this.locationHashDiffParams()) return;
+
+    this.params = this.parseLocationHash();
+    this.displayPage(this.get("href"));
+  }
+}
+// LwdHashRouter.refresh();
+
+addEventListener("hashchange", () => {
+  LwdHashRouter.refresh();
+});
