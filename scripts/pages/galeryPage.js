@@ -70,7 +70,7 @@ async function searchImages(searchString) {
   searchString = searchString.trim();
   if (searchString == lastSearch) return imageList;
 
-  return fetchAPI("images", {
+  return Mongo.find("images", {
     filter: { ...searchTagsFilter(searchString), delete: { $ne: true } },
     sort: { [sortBy || "lwdOrder"]: sortDirection || -1 },
   }).then(({ documents }) => documents);
@@ -144,7 +144,7 @@ function imageClickAction(item) {
   // _id = item.id.split("-").pop();
   if (document.querySelector(".delete-mode")) {
     if (confirm("Are you sure you want to delete this image?")) {
-      updateManyAPI("images", { _id }, { $set: { delete: true } }).then(() => {
+      Mongo.update("images", { _id }, { $set: { delete: true } }).then(() => {
         document.querySelector(`#${item.id}`).parentElement.remove();
       });
     }

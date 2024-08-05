@@ -95,30 +95,6 @@ class Mongo {
     });
   }
 
-  static async insert(collection, documents) {
-    createdAt = updatedAt = new Date().toJSON();
-    documents = documents.map((d) => ({ ...d, createdAt, updatedAt }));
-
-    return fetch(apiUrl("insertMany"), {
-      method: "POST",
-      headers: Mongo.#authHeaders(),
-      body: JSON.stringify({
-        dataSource: "lwd",
-        database: "lwd",
-        collection,
-        documents,
-      }),
-    }).then(async (response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        error = await response.json();
-        console.error(`Mongo.insert: ${error}`);
-        throw error;
-      }
-    });
-  }
-
   static async update(collection, filter, update) {
     if (filter._id) filter._id = { $oid: filter._id };
 
