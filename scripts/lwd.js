@@ -15,7 +15,6 @@ const categoriesOrder = {
 };
 const ratings = ["general", "sensitive", "questionable", "explicit"];
 
-
 async function login() {
   document.querySelector("[name=login]").setAttribute("disabled", true);
   mongoUrl = document.querySelector("[name=mongoUrl]").value;
@@ -51,9 +50,9 @@ async function createLwd() {
   // }));
 }
 
-async function renderLwd(){
+async function renderLwd() {
   document.body.outerHTML = "<body></body>";
-  
+
   document.body.append((sideSection = createSideSection()));
   document.body.append((topSection = createTopSection()));
 
@@ -61,8 +60,9 @@ async function renderLwd(){
     { href: "galery", onCreate: createGaleryPage, onRender: renderGaleryPage },
     // { href: "manage/tags", onCreate: () => {}, onRender: renderTagManagement },
     // { href: "watchlist", onCreate: () => {}, onRender: renderWatchlistPage },
+    { href: "settings", onCreate: () => {}, onRender: () => {} },
   ];
   // LwdHashRouter.createPages(pagesDefinitions, (params) => new LwdPage(params));
-  
-  LwdHashRouter.createPages(pagesDefinitions)
+
+  LwdHashRouter.createPages(pagesDefinitions);
 }
