@@ -6,7 +6,7 @@ var galeryPage,
   loadedPage,
   lastPage;
 const pageSize = 72;
-const sortBy, sortDirection = false;
+const sortBy = sortDirection = false;
 
 function createGaleryPage() {
   galeryPage = document.querySelector(`page[href='galery']`);
@@ -125,7 +125,7 @@ function serializeGaleryItems(images, page) {
   return images.slice((page - 1) * pageSize, page * pageSize).map((image) => ({
     ...image,
     id: `image-id-${image._id}`,
-    info: `${image.score ? `S${image.score}` : "NS"} | T${image.tags.length}`,
+    info: `${image.score ? `S${image.score}` : "NS"} | T${image?.tags?.length}`,
     // thumb:
     //   image.src?.thumb ||
     //   image.src?.sample ||

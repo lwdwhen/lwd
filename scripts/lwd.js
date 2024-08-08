@@ -66,3 +66,26 @@ async function renderLwd() {
 
   LwdHashRouter.createPages(pagesDefinitions);
 }
+
+function findImage(imageId) {
+  imageIndex = imageList.findIndex((image) => image._id == imageId);
+
+  return { ...imageList[imageIndex], index: imageIndex };
+}
+
+function applyAlias(tagList) {
+  loopTagsToApplyAlias = (tags, aliases) => {
+    matchAlias = (aliases, tag) =>
+      aliases.find(({ from }) => from == tag)?.to || tag;
+
+    return tags
+      .reduce((acc, tag) => [...acc, matchAlias(aliases, tag)], [])
+      .flat()
+      .uniq()
+      .sort();
+  };
+
+  return fetchAPI("aliases", {}).then(({ documents: aliases }) =>
+    loopTagsToApplyAlias(tagList, aliases)
+  );
+}

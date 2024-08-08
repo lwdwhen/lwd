@@ -569,7 +569,7 @@ class LwdHashRouter {
   // pagesDefinitions = [{ href, onCreate, onRender }]
   static createPages(
     pagesDefinitions,
-    funcCreatePage = (params) => new LwdPage(params)
+    funcCreatePage = (params) => new LwdPage({ hidden: true, ...params })
   ) {
     pagesDefinitions.forEach((params) => {
       document.body.append(funcCreatePage(params));

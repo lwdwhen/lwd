@@ -6,12 +6,12 @@ class Mongo {
 
   static #authUrl = () =>
     `https://${Mongo.region}.${Mongo.provider}.services.cloud.mongodb.com/api/client/v2.0/app/${Mongo.projectId}/auth/providers/local-userpass/login`;
-  static #ApiUrl = (action) =>
+  static #apiUrl = (action) =>
     `https://${Mongo.region}.${Mongo.provider}.data.mongodb-api.com/app/${Mongo.projectId}/endpoint/data/v1/action/${action}`;
   static #authHeaders = () => ({
     "Access-Control-Request-Headers": "*",
     Accept: "application/json",
-    Authorization: `Bearer ${Mongo.accessToken}`,
+    // Authorization: `Bearer ${Mongo.accessToken}`,
     "Content-Type": "application/json",
   });
 
@@ -50,7 +50,7 @@ class Mongo {
   static async find(collection, data) {
     if (data?.filter?._id) data.filter._id = { $oid: data.filter._id };
 
-    return fetch(apiUrl("find"), {
+    return fetch(Mongo.#apiUrl("find"), {
       method: "POST",
       headers: Mongo.#authHeaders(),
       body: JSON.stringify({
@@ -64,7 +64,7 @@ class Mongo {
       if (response.ok) {
         return response.json();
       } else {
-        error = await response.json();
+        let error = await response.json();
         console.error(`Mongo.find: ${error}`);
         throw error;
       }
@@ -75,7 +75,7 @@ class Mongo {
     createdAt = updatedAt = new Date().toJSON();
     documents = documents.map((d) => ({ ...d, createdAt, updatedAt }));
 
-    return fetch(apiUrl("insertMany"), {
+    return fetch(Mongo.#apiUrl("insertMany"), {
       method: "POST",
       headers: Mongo.#authHeaders(),
       body: JSON.stringify({
@@ -88,7 +88,7 @@ class Mongo {
       if (response.ok) {
         return response.json();
       } else {
-        error = await response.json();
+        let error = await response.json();
         console.error(`Mongo.insert: ${error}`);
         throw error;
       }
@@ -102,7 +102,7 @@ class Mongo {
     if (!update.$set) update.$set = {};
     update.$set = { ...update.$set, updatedAt };
 
-    return fetch(apiUrl("updateMany"), {
+    return fetch(Mongo.#apiUrl("updateMany"), {
       method: "POST",
       headers: Mongo.#authHeaders(),
       body: JSON.stringify({
@@ -127,7 +127,7 @@ class Mongo {
   static async delete(collection, filter) {
     if (filter._id) filter._id = { $oid: filter._id };
 
-    return fetch(apiUrl("deleteMany"), {
+    return fetch(Mongo.#apiUrl("deleteMany"), {
       method: "POST",
       headers: Mongo.#authHeaders(),
       body: JSON.stringify({
