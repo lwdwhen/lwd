@@ -1,5 +1,5 @@
 class Mongo {
-  static accessToken = localStorage.getItem("mongoAccessToken");
+  // static accessToken = localStorage.getItem("mongoAccessToken");
   static projectId = localStorage.getItem("mongoProjectId");
   static provider = localStorage.getItem("mongoProvider");
   static region = localStorage.getItem("mongoRegion");
@@ -16,9 +16,21 @@ class Mongo {
   });
 
   static ready() {
-    return (
-      Mongo.accessToken && Mongo.projectId && Mongo.provider && Mongo.region
-    );
+    return Mongo.projectId && Mongo.provider && Mongo.region;
+  }
+
+  static async fakeAuth(collection = "images") {
+    return Mongo.find(collection, { limit: 1 })
+      .then(async (response) => {
+        localStorage.setItem("mongoProjectId", Mongo.projectId);
+        localStorage.setItem("mongoProvider", Mongo.provider);
+        localStorage.setItem("mongoRegion", Mongo.region);
+        return response;
+      })
+      .catch((e) => {
+        console.error("Mongo.fakeAuth: ", e);
+        return false;
+      });
   }
 
   static async auth(username, password) {

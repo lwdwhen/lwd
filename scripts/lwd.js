@@ -27,7 +27,7 @@ async function login() {
   Mongo.provider = mongoRegionDotProvider.split(".")[1];
   Mongo.region = mongoRegionDotProvider.split(".")[0];
 
-  Mongo.auth(username, password).then((data) => {
+  Mongo.fakeAuth().then((data) => {
     document.querySelector("[name=login]").removeAttribute("disabled");
     if (data) location.reload();
   });
