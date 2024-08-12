@@ -186,10 +186,9 @@ class LwdGalery extends LwdHTML {
     this.focusedItem = undefined;
     this.items = items;
     items.forEach((item) => {
-      let frame = new LwdHashLink({
+      let frame = new LwdHashLink(item.hash, {
         className: "frame",
         href: item.href,
-        hash: item.hash,
       });
       this.append(frame);
       if (item.info) frame.append(item.info);
@@ -232,15 +231,15 @@ class LwdGalery extends LwdHTML {
 }
 
 class LwdHashLink extends LwdHTML {
-  constructor(attrs = { hash: {} }) {
+  constructor(urlHash, attrs = { hash: {} }) {
     super("a", attrs);
-    if (this.hash && !attrs.href)
-      this.href = LwdHashRouter.stringifyLocationHash(this.hash);
+    if (urlHash && !attrs.href)
+      this.href = LwdHashRouter.stringifyLocationHash(urlHash);
 
     this.onclick = (e) => {
       e.preventDefault();
-      if (this.quiet) LwdHashRouter.params = this.hash;
-      location.hash = LwdHashRouter.stringifyLocationHash(this.hash);
+      if (this.quiet) LwdHashRouter.params = urlHash;
+      location.hash = LwdHashRouter.stringifyLocationHash(urlHash);
     };
   }
 }
@@ -367,6 +366,12 @@ class LwdListItem extends LwdHTML {
   }
 }
 
+class LwdNav extends LwdHTML {
+  constructor(attrs = {}) {
+    super("nav", attrs);
+  }
+}
+
 class LwdModal extends LwdHTML {
   constructor(attrs = {}) {
     super("modal", attrs);
@@ -485,6 +490,18 @@ class LwdSelect extends LwdHTML {
 class LwdSelectOption extends LwdHTML {
   constructor(attrs = {}) {
     super("option", attrs);
+  }
+}
+
+class LwdSnackbar extends LwdHTML {
+  constructor(attrs = {}) {
+    super("snackbar", attrs);
+    document.body.append(this);
+    this.fire = (textContent, className = "warning", displayTime = 5000) => {
+      let message;
+      this.append((message = new LwdContainer({ textContent, className })));
+      setTimeout(() => message.classList.add("out"), displayTime);
+    };
   }
 }
 

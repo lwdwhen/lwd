@@ -54,8 +54,8 @@ async function createImage(imageData) {
   imageData.imageUrl = hostedImage.image.url;
   imageData.hostedId = hostedImage.id;
 
-  return createAPI("images", [imageData]).then((response) => {
-    fireSnackBar("Image Added", "success");
+  return Mongo.insert("images", [imageData]).then((response) => {
+    window.snackbar.fire("Image Added", "success");
     hashParams.set("lwdId", response.insertedId);
     updateLwdImported(imageData.externalHosts[0]);
 
@@ -66,12 +66,12 @@ async function createImage(imageData) {
 async function updateImage(imageLwdId, scrapeFunction) {
   imageDataPromise = scrapeFunction();
 
-  lwdImageDataPromise = fetchAPI("images", {
+  lwdImageDataPromise = Mongo.find("images", {
     filter: { _id: imageLwdId },
   }).then((r) => r.documents[0]);
 
   lwdImageData = await lwdImageDataPromise;
-  if (!lwdImageData) return fireSnackBar("lwdImageData not found", "error");
+  if (!lwdImageData) return window.snackbar.fire("lwdImageData not found", "error");
 
   imageData = await validateImageData(await imageDataPromise);
 
@@ -99,12 +99,12 @@ async function updateImage(imageLwdId, scrapeFunction) {
 
   delete lwdImageData._id;
 
-  return updateManyAPI(
+  return Mongo.update(
     "images",
     { _id: imageLwdId },
     { $set: lwdImageData }
   ).then((response) => {
-    fireSnackBar("Tags Added", "success");
+    window.snackbar.fire("Tags Added", "success");
     hashParams.set("lwdId", imageLwdId);
     updateLwdImported(imageData.externalHosts[0]);
 
@@ -129,7 +129,7 @@ async function validateImageData(imageData) {
 }
 
 function applyAlias(imageData) {
-  return fetchAPI("aliases", {}).then(({ documents: aliases }) => {
+  return Mongo.find("aliases", {}).then(({ documents: aliases }) => {
     imageData.tags = loopTagsToApplyAlias(imageData.tags, aliases);
 
     if (imageData.addedTags)
@@ -159,7 +159,7 @@ async function updateLwdImported(externalHost) {
 
 // Call to load images in lwd to host to know which are saved
 function loadLwdImported() {
-  fetchAPI("images", { projection: { _id: 1, hosts: 1 } }).then(
+  return Mongo.find("images", { projection: { _id: 1, hosts: 1 } }).then(
     ({ documents: images }) => {
       lwdImagesIds = images
         .filter(({ hosts }) => hosts[location.host])
@@ -169,7 +169,7 @@ function loadLwdImported() {
         }, {});
       console.log("lwdImagesIds", lwdImagesIds);
       localStorage.setItem("lwdImagesIds", JSON.stringify(lwdImagesIds));
-      fireSnackBar("Loaded all images imported to Lwd", "success");
+      window.snackbar.fire("Loaded all images imported to Lwd", "success");
     }
   );
 }
