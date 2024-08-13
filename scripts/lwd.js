@@ -17,10 +17,8 @@ const ratings = ["general", "sensitive", "questionable", "explicit"];
 
 async function login() {
   document.querySelector("[name=login]").setAttribute("disabled", true);
-  mongoUrl = document.querySelector("[name=mongoUrl]").value;
-  username = document.querySelector("[name=username]").value;
-  password = document.querySelector("[name=password]").value;
-  imgbbApiKey = document.querySelector("[name=imgbbApiKey]").value;
+  mongoUrl = document.querySelector("[name=mongoUrl]")?.value;
+  imgbbApiKey = document.querySelector("[name=imgbbApiKey]")?.value;
 
   Mongo.projectId = mongoUrl.match(/\/data-[\w-]*/)[0].slice(1);
   mongoRegionDotProvider = mongoUrl.match(/\/\/[\w-]*\.[\w]*/)[0].slice(2);
@@ -31,6 +29,10 @@ async function login() {
     document.querySelector("[name=login]").removeAttribute("disabled");
     if (data) location.reload();
   });
+}
+async function logout() {
+  localStorage.clear();
+  location.reload();
 }
 
 async function createLwd() {
@@ -53,6 +55,7 @@ async function createLwd() {
 async function renderLwd() {
   document.body.outerHTML = "<body></body>";
 
+  window.snackbar = new LwdSnackbar()
   document.body.append((sideSection = createSideSection()));
   document.body.append((topSection = createTopSection()));
 
@@ -60,7 +63,11 @@ async function renderLwd() {
     { href: "galery", onCreate: createGaleryPage, onRender: renderGaleryPage },
     // { href: "manage/tags", onCreate: () => {}, onRender: renderTagManagement },
     // { href: "watchlist", onCreate: () => {}, onRender: renderWatchlistPage },
-    { href: "settings", onCreate: () => {}, onRender: () => {} },
+    {
+      href: "settings",
+      onCreate: createSettingsPage,
+      onRender: renderSettingsPage,
+    },
   ];
   // LwdHashRouter.createPages(pagesDefinitions, (params) => new LwdPage(params));
 

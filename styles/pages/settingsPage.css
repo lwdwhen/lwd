@@ -1,11 +1,4 @@
-page[href='lwd'] galery {
-	width: 100%;
-	padding-top: 12px;
-	align-self: end;
-	justify-content: end;
-    background-color: cadetblue;
-	
-	grid-template-columns: repeat(auto-fill, 134px);
-	grid-template-rows: repeat(auto-fill, 133px);
-    height: calc(100% - 40px);
+page[href='settings'] {
+	background-color: bisque;
+	align-items: center;
 }

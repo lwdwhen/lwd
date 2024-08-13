@@ -7,7 +7,7 @@ function createTopSection() {
   topSection.onmouseleave = (e) => e.target.classList.remove("expanded");
 
   topSection.append(createGalerySearch());
-  //   topSection.append(createNavMenu());
+  topSection.append(createTopNavMenu());
 
   return topSection;
 }
@@ -57,6 +57,19 @@ function createGalerySearch() {
 //   option.textContent = text;
 //   option.value = value;
 // }
+
+function createTopNavMenu() {
+  topNavMenu = new LwdNav({ id: "nav-menu" });
+
+  topNavMenu.append(createTopNavLink("galery", "Galery"));
+  topNavMenu.append(createTopNavLink("settings", "Settings"));
+
+  return topNavMenu;
+}
+
+function createTopNavLink(href, textContent) {
+  return new LwdHashLink({ href }, { textContent });
+}
 
 // function createNavMenu() {
 //   navMenu = document.createElement("nav");
