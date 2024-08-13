@@ -21,9 +21,7 @@ function renderImportBtn(rawSourceUrl, onclick) {
   sourceUrlParams.searchParams.delete("tags");
   let sourceUrl = String(sourceUrlParams);
 
-  importBtn = document.createElement("div");
-  importBtn.id = sourceUrl;
-  importBtn.className = "importBtn";
+  importBtn = new LwdContainer({ id: sourceUrl, className: "importBtn" });
   importBtn.onclick = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -56,7 +54,7 @@ async function createImage(imageData) {
 
   return Mongo.insert("images", [imageData]).then((response) => {
     window.snackbar.fire("Image Added", "success");
-    hashParams.set("lwdId", response.insertedId);
+    LwdHashRouter.set("lwdId", response.insertedId);
     updateLwdImported(imageData.externalHosts[0]);
 
     return response;
@@ -71,7 +69,8 @@ async function updateImage(imageLwdId, scrapeFunction) {
   }).then((r) => r.documents[0]);
 
   lwdImageData = await lwdImageDataPromise;
-  if (!lwdImageData) return window.snackbar.fire("lwdImageData not found", "error");
+  if (!lwdImageData)
+    return window.snackbar.fire("lwdImageData not found", "error");
 
   imageData = await validateImageData(await imageDataPromise);
 
@@ -105,7 +104,7 @@ async function updateImage(imageLwdId, scrapeFunction) {
     { $set: lwdImageData }
   ).then((response) => {
     window.snackbar.fire("Tags Added", "success");
-    hashParams.set("lwdId", imageLwdId);
+    LwdHashRouter.set("lwdId", imageLwdId);
     updateLwdImported(imageData.externalHosts[0]);
 
     return response;

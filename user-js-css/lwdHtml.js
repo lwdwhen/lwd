@@ -529,7 +529,7 @@ class LwdTile extends LwdHTML {
 
 class LwdHashRouter {
   static params = {};
-  static href = "";
+  // static href = "";
 
   static parseLocationHash = () =>
     Object.fromEntries(
@@ -577,12 +577,6 @@ class LwdHashRouter {
     this.updateLocationHash();
   }
 
-  static createPage({ href }) {
-    let page = document.createElement("page");
-    page.setAttribute("href", href);
-    return page;
-  }
-
   // pagesDefinitions = [{ href, onCreate, onRender }]
   static createPages(
     pagesDefinitions,
@@ -623,19 +617,21 @@ class LwdHashRouter {
     console.log("displayPage", href, page);
     if (page) page.hidden = false;
     if (page) page.onRender();
-    this.href = href;
-    this.set("href", href);
+    // this.href = href;
+    // this.set("href", href);
   }
 
   static locationHashDiffParams() {
     return (
-      JSON.stringify(this.params) === JSON.stringify(this.parseLocationHash())
+      JSON.stringify(this.params) !== JSON.stringify(this.parseLocationHash())
     );
   }
-  static refresh() {
-    if (this.locationHashDiffParams()) return;
 
+  static refresh() {
+    if (!this.locationHashDiffParams()) return;
     this.params = this.parseLocationHash();
+
+    if (!this.get("href")) return;
     this.displayPage(this.get("href"));
   }
 }
