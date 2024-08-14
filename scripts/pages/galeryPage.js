@@ -62,7 +62,7 @@ async function renderGaleryPage() {
       renderTagList(focusedImage.tags);
     } else {
       galeryGalery.closeFocus();
-      displayGaleryPageActions();
+      // displayGaleryPageActions();
     }
   }
 }
