@@ -545,44 +545,46 @@ class LwdHashRouter {
       .join("&");
 
   static updateLocationHash = () =>
-    (location.hash = Object.entries(this.params)
+    (location.hash = Object.entries(LwdHashRouter.params)
       .map((p) => p.join("="))
       .join("&"));
 
-  static params = this.parseLocationHash();
+  static params = LwdHashRouter.parseLocationHash();
 
   static get(key) {
-    return this.params[key] ? decodeURI(this.params[key]) : "";
+    return LwdHashRouter.params[key]
+      ? decodeURI(LwdHashRouter.params[key])
+      : "";
   }
 
   static set(key, value) {
-    // if (value) this.params[key] = value;
-    // else delete this.params[key];
+    // if (value) LwdHashRouter.params[key] = value;
+    // else delete LwdHashRouter.params[key];
 
-    // this.updateLocationHash();
+    // LwdHashRouter.updateLocationHash();
 
     if (value) {
-      location.hash = Object.entries({ ...this.params, [key]: value })
+      location.hash = Object.entries({ ...LwdHashRouter.params, [key]: value })
         .map((p) => p.join("="))
         .join("&");
-    } else delete this.params[key];
+    } else delete LwdHashRouter.params[key];
   }
 
   static delete(key) {
-    delete this.params[key];
-    this.updateLocationHash();
+    delete LwdHashRouter.params[key];
+    LwdHashRouter.updateLocationHash();
   }
 
   static clear() {
-    this.params = { href: this.params.href };
-    this.updateLocationHash();
+    LwdHashRouter.params = { href: LwdHashRouter.params.href };
+    LwdHashRouter.updateLocationHash();
   }
 
   static storeAndDelete(key) {
     let value = LwdHashRouter.get(key);
     if (value != undefined && value != "") {
       localStorage.setItem(key, value);
-      this.delete(key);
+      LwdHashRouter.delete(key);
       console.log("LwdHashRouter.storeAndDelete", key);
       return value;
     }
@@ -596,27 +598,27 @@ class LwdHashRouter {
     pagesDefinitions.forEach((params) => {
       document.body.append(funcCreatePage(params));
       params.onCreate();
-      if (this.get("href") == params.href) params.onRender();
+      if (LwdHashRouter.get("href") == params.href) params.onRender();
     });
-    // this.refresh();
+    // LwdHashRouter.refresh();
     // // href: 'lwd', onCreate: () => {}, onRender: () => {}
     // Object.entries(pathsAndFunctions).forEach(([href, routingFunction]) => {
     //   let pageLoadFunc = () =>{
-    //     this.displayPage(href)
+    //     LwdHashRouter.displayPage(href)
     //     routingFunction()
     //   }
 
     //   document.querySelector("main").append(funcCreatePage({ href, pageLoadFunc }));
 
-    //   this[routingFunction.name] = async () => {
+    //   LwdHashRouter[routingFunction.name] = async () => {
     //     LwdGenericRouter.displayPage(pathname);
     //     routingFunction(params);
     //   };
 
     // });
 
-    // if (this.get('page') == pathname)
-    //     setTimeout(() => this[routingFunction.name](this.hashParams), 5);
+    // if (LwdHashRouter.get('page') == pathname)
+    //     setTimeout(() => LwdHashRouter[routingFunction.name](LwdHashRouter.hashParams), 5);
   }
 
   static hideAllPages() {
@@ -624,29 +626,30 @@ class LwdHashRouter {
   }
 
   static displayPage(href) {
-    this.hideAllPages();
+    LwdHashRouter.hideAllPages();
     let page = document.querySelector(`page[href='${href}']`);
     console.log("displayPage", href, page);
     if (page) page.hidden = false;
     if (page) page.onRender();
-    // this.href = href;
-    // this.set("href", href);
+    // LwdHashRouter.href = href;
+    // LwdHashRouter.set("href", href);
   }
 
   static locationHashDiffParams() {
     return (
-      JSON.stringify(this.params) !== JSON.stringify(this.parseLocationHash())
+      JSON.stringify(LwdHashRouter.params) !==
+      JSON.stringify(LwdHashRouter.parseLocationHash())
     );
   }
 
   static refresh() {
-    if (!this.locationHashDiffParams()) return;
-    this.params = this.parseLocationHash();
+    if (!LwdHashRouter.locationHashDiffParams()) return;
+    LwdHashRouter.params = LwdHashRouter.parseLocationHash();
 
-    if (!this.get("href")) return;
-    this.displayPage(this.get("href"));
+    if (!LwdHashRouter.get("href")) return;
+    LwdHashRouter.displayPage(LwdHashRouter.get("href"));
   }
 }
-// this.refresh();
+// LwdHashRouter.refresh();
 
 addEventListener("hashchange", LwdHashRouter.refresh);
