@@ -579,7 +579,7 @@ class LwdHashRouter {
 
   static storeAndDelete(key) {
     let value = LwdHashRouter.get(key);
-    if (value != undefined) {
+    if (value != undefine && value != "") {
       localStorage.setItem(key, value);
       LwdHashRouter.delete(key);
       console.log("LwdHashRouter.storeAndDelete", key);
