@@ -5,7 +5,7 @@ function createSettingsPage() {
 
   rLink = new LwdA({
     textContent: "rule34.xxx",
-    href: setupMongoURL(
+    href: setupVarsURL(
       "https://rule34.xxx/index.php?page=post&s=list&tags=all"
     ),
   });
