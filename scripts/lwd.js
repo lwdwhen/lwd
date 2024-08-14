@@ -25,7 +25,7 @@ async function login() {
   Mongo.provider = mongoRegionDotProvider.split(".")[1];
   Mongo.region = mongoRegionDotProvider.split(".")[0];
 
-  Mongo.fakeAuth().then((data) => {
+  Promise.all(Mongo.fakeAuth(), imageHost.auth(imgbbApiKey)).then((data) => {
     document.querySelector("[name=login]").removeAttribute("disabled");
     if (data) location.reload();
   });
@@ -55,7 +55,7 @@ async function createLwd() {
 async function renderLwd() {
   document.body.outerHTML = "<body></body>";
 
-  window.snackbar = new LwdSnackbar()
+  window.snackbar = new LwdSnackbar();
   document.body.append((sideSection = createSideSection()));
   document.body.append((topSection = createTopSection()));
 

@@ -577,6 +577,16 @@ class LwdHashRouter {
     this.updateLocationHash();
   }
 
+  static storeAndDelete(key) {
+    let value = LwdHashRouter.get(key);
+    if (value != undefined) {
+      localStorage.setItem(key, value);
+      LwdHashRouter.delete(key);
+      console.log("LwdHashRouter.storeAndDelete", key);
+      return value;
+    }
+  }
+
   // pagesDefinitions = [{ href, onCreate, onRender }]
   static createPages(
     pagesDefinitions,

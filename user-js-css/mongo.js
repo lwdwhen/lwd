@@ -1,3 +1,9 @@
+console.log("mongo.js gh");
+window.addEventListener("load", () => {
+  Mongo.projectId ||= LwdHashRouter.storeAndDelete("mongoProjectId");
+  Mongo.provider ||= LwdHashRouter.storeAndDelete("mongoProvider");
+  Mongo.region ||= LwdHashRouter.storeAndDelete("mongoRegion");
+});
 class Mongo {
   // static accessToken = localStorage.getItem("mongoAccessToken");
   static projectId = localStorage.getItem("mongoProjectId");
