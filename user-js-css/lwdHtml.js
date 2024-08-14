@@ -590,37 +590,6 @@ class LwdHashRouter {
     }
   }
 
-  // pagesDefinitions = [{ href, onCreate, onRender }]
-  static createPages(
-    pagesDefinitions,
-    funcCreatePage = (params) => new LwdPage({ hidden: true, ...params })
-  ) {
-    pagesDefinitions.forEach((params) => {
-      document.body.append(funcCreatePage(params));
-      params.onCreate();
-      if (LwdHashRouter.get("href") == params.href) displayPage(params.href);
-    });
-    // LwdHashRouter.refresh();
-    // // href: 'lwd', onCreate: () => {}, onRender: () => {}
-    // Object.entries(pathsAndFunctions).forEach(([href, routingFunction]) => {
-    //   let pageLoadFunc = () =>{
-    //     LwdHashRouter.displayPage(href)
-    //     routingFunction()
-    //   }
-
-    //   document.querySelector("main").append(funcCreatePage({ href, pageLoadFunc }));
-
-    //   LwdHashRouter[routingFunction.name] = async () => {
-    //     LwdGenericRouter.displayPage(pathname);
-    //     routingFunction(params);
-    //   };
-
-    // });
-
-    // if (LwdHashRouter.get('page') == pathname)
-    //     setTimeout(() => LwdHashRouter[routingFunction.name](LwdHashRouter.hashParams), 5);
-  }
-
   static hideAllPages() {
     document.querySelectorAll("page").forEach((page) => (page.hidden = true));
   }
@@ -648,6 +617,18 @@ class LwdHashRouter {
 
     if (!LwdHashRouter.get("href")) return;
     LwdHashRouter.displayPage(LwdHashRouter.get("href"));
+  }
+
+  // pagesDefinitions = [{ href, onCreate, onRender }]
+  static createPages(
+    pagesDefinitions,
+    funcCreatePage = (params) => new LwdPage({ hidden: true, ...params })
+  ) {
+    pagesDefinitions.forEach((params) => {
+      document.body.append(funcCreatePage(params));
+      params.onCreate();
+      if (LwdHashRouter.get("href") == params.href) displayPage(params.href);
+    });
   }
 }
 // LwdHashRouter.refresh();
