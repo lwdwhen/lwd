@@ -627,8 +627,8 @@ class LwdHashRouter {
     pagesDefinitions.forEach((params) => {
       document.body.append(funcCreatePage(params));
       params.onCreate();
-      if (LwdHashRouter.get("href") == params.href) displayPage(params.href);
     });
+    LwdHashRouter.displayPage(LwdHashRouter.get("href"));
   }
 }
 // LwdHashRouter.refresh();
