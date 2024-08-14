@@ -55,7 +55,7 @@ async function renderGaleryPage() {
     console.log("imageId != focusedImage", imageId, "!=", focusedImage?._id);
     focusedImage = findImage(imageId);
 
-    resetAsideContent();
+    // resetAsideContent();
     if (focusedImage?._id) {
       galeryGalery.focusItem(focusedImage);
       renderLwdImageData(focusedImage);
