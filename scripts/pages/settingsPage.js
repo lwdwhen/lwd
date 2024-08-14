@@ -22,7 +22,7 @@ function createSettingsPage() {
 
 async function renderSettingsPage() {}
 
-async function setupMongoURL(url) {
+function setupVarsURL(url) {
   return (
     url +
     `#mongoProjectId=${Mongo.projectId}&mongoProvider=${Mongo.provider}&mongoRegion=${Mongo.region}&imageHostApiKey=${imageHost.apiKey}`
