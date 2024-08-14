@@ -528,7 +528,7 @@ class LwdTile extends LwdHTML {
 }
 
 class LwdHashRouter {
-  static params = {};
+  static params = LwdHashRouter.parseLocationHash();
   // static href = "";
 
   static parseLocationHash = () =>
@@ -638,11 +638,11 @@ class LwdHashRouter {
   }
 
   static refresh() {
-    if (!this.locationHashDiffParams()) return;
-    this.params = this.parseLocationHash();
+    if (!LwdHashRouter.locationHashDiffParams()) return;
+    LwdHashRouter.params = LwdHashRouter.parseLocationHash();
 
-    if (!this.get("href")) return;
-    this.displayPage(this.get("href"));
+    if (!LwdHashRouter.get("href")) return;
+    LwdHashRouter.displayPage(LwdHashRouter.get("href"));
   }
 }
 // LwdHashRouter.refresh();
