@@ -25,7 +25,7 @@ async function login() {
   Mongo.provider = mongoRegionDotProvider.split(".")[1];
   Mongo.region = mongoRegionDotProvider.split(".")[0];
 
-  Promise.all(Mongo.fakeAuth(), imageHost.auth(imgbbApiKey)).then((data) => {
+  Promise.all([Mongo.fakeAuth(), imageHost.auth(imgbbApiKey)]).then((data) => {
     document.querySelector("[name=login]").removeAttribute("disabled");
     if (data) location.reload();
   });
