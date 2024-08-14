@@ -528,7 +528,6 @@ class LwdTile extends LwdHTML {
 }
 
 class LwdHashRouter {
-  static params = LwdHashRouter.parseLocationHash();
   // static href = "";
 
   static parseLocationHash = () =>
@@ -549,6 +548,8 @@ class LwdHashRouter {
     (location.hash = Object.entries(this.params)
       .map((p) => p.join("="))
       .join("&"));
+
+  static params = this.parseLocationHash();
 
   static get(key) {
     return this.params[key] ? decodeURI(this.params[key]) : "";
@@ -581,7 +582,7 @@ class LwdHashRouter {
     let value = LwdHashRouter.get(key);
     if (value != undefined && value != "") {
       localStorage.setItem(key, value);
-      LwdHashRouter.delete(key);
+      this.delete(key);
       console.log("LwdHashRouter.storeAndDelete", key);
       return value;
     }
@@ -596,7 +597,7 @@ class LwdHashRouter {
       document.body.append(funcCreatePage(params));
       params.onCreate();
     });
-    LwdHashRouter.refresh();
+    this.refresh();
     // // href: 'lwd', onCreate: () => {}, onRender: () => {}
     // Object.entries(pathsAndFunctions).forEach(([href, routingFunction]) => {
     //   let pageLoadFunc = () =>{
@@ -638,15 +639,15 @@ class LwdHashRouter {
   }
 
   static refresh() {
-    if (!LwdHashRouter.locationHashDiffParams()) return;
-    LwdHashRouter.params = LwdHashRouter.parseLocationHash();
+    if (!this.locationHashDiffParams()) return;
+    this.params = this.parseLocationHash();
 
-    if (!LwdHashRouter.get("href")) return;
-    LwdHashRouter.displayPage(LwdHashRouter.get("href"));
+    if (!this.get("href")) return;
+    this.displayPage(this.get("href"));
   }
 }
-// LwdHashRouter.refresh();
+// this.refresh();
 
 addEventListener("hashchange", () => {
-  LwdHashRouter.refresh();
+  this.refresh();
 });
