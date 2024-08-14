@@ -649,6 +649,4 @@ class LwdHashRouter {
 }
 // this.refresh();
 
-addEventListener("hashchange", () => {
-  this.refresh();
-});
+addEventListener("hashchange", LwdHashRouter.refresh);
