@@ -5,7 +5,7 @@ html {
   --highlight: #1afbff;
 }
 
-[lwd][hidden] {
+[hidden] {
   display: none !important;
 }
 
