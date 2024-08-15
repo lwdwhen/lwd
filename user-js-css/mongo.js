@@ -1,5 +1,6 @@
 console.log("mongo.js gh");
 window.addEventListener("load", () => {
+  console.log("mongo.js gh load LwdHashRouter", LwdHashRouter.params);
   Mongo.projectId ||= LwdHashRouter.storeAndDelete("mongoProjectId");
   Mongo.provider ||= LwdHashRouter.storeAndDelete("mongoProvider");
   Mongo.region ||= LwdHashRouter.storeAndDelete("mongoRegion");
@@ -22,7 +23,7 @@ class Mongo {
   });
 
   static ready() {
-    return Mongo.projectId && Mongo.provider && Mongo.region;
+    return !!Mongo.projectId && !!Mongo.provider && !!Mongo.region;
   }
 
   static async fakeAuth(collection = "images") {

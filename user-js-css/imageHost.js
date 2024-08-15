@@ -1,5 +1,6 @@
 console.log("imageHost.js gh");
 window.addEventListener("load", () => {
+  console.log("imageHost.js gh load LwdHashRouter", LwdHashRouter.params);
   imageHost.apiKey ||= LwdHashRouter.storeAndDelete("imageHostApiKey");
   imageHost.authToken ||= LwdHashRouter.storeAndDelete("imageHostAuthToken");
 });
