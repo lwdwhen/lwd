@@ -58,8 +58,8 @@ async function renderGaleryPage() {
     // resetAsideContent();
     if (focusedImage?._id) {
       galeryGalery.focusItem(focusedImage);
-      renderLwdImageData(focusedImage);
-      renderTagList(focusedImage.tags);
+      // renderLwdImageData(focusedImage);
+      // renderTagList(focusedImage.tags);
     } else {
       galeryGalery.closeFocus();
       // displayGaleryPageActions();
