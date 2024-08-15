@@ -23,7 +23,9 @@ class imageHost {
   static async upload(source) {
     let uploadUrl = "https://api.imgbb.com/1/upload";
     let method = "POST";
-    return fetch(`${uploadUrl}?${imageHost.apiKey}&image=${source}`, { method })
+    return fetch(`${uploadUrl}?key=${imageHost.apiKey}&image=${source}`, {
+      method,
+    })
       .then((response) => response.json())
       .then((response) => response.data);
   }
