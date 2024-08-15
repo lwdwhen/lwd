@@ -93,7 +93,8 @@ class Mongo {
   }
 
   static async insert(collection, documents) {
-    createdAt = updatedAt = new Date().toJSON();
+    let createdAt = new Date().toJSON();
+    let updatedAt = createdAt;
     documents = documents.map((d) => ({ ...d, createdAt, updatedAt }));
 
     return fetch(Mongo.#apiUrl("insertMany"), {
@@ -119,7 +120,7 @@ class Mongo {
   static async update(collection, filter, update) {
     if (filter._id) filter._id = { $oid: filter._id };
 
-    updatedAt = new Date().toJSON();
+    let updatedAt = new Date().toJSON();
     if (!update.$set) update.$set = {};
     update.$set = { ...update.$set, updatedAt };
 
