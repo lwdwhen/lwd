@@ -21,18 +21,18 @@ class imageHost {
   }
 
   static async upload(source) {
-    uploadUrl = "https://api.imgbb.com/1/upload";
-    method = "POST";
+    let uploadUrl = "https://api.imgbb.com/1/upload";
+    let method = "POST";
     return fetch(`${uploadUrl}?${imageHost.apiKey}&image=${source}`, { method })
       .then((response) => response.json())
       .then((response) => response.data);
   }
 
   static async delete(hostedId) {
-    generalUrl = "https://when-lwd.imgbb.com/json";
-    method = "POST";
+    let generalUrl = "https://when-lwd.imgbb.com/json";
+    let method = "POST";
 
-    formData = new formData();
+    let formData = new formData();
     formData.append("auth_token", imageHost.authToken);
     formData.append("pathname", "/");
     formData.append("action", "delete");
