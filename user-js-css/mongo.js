@@ -1,9 +1,11 @@
 console.log("mongo.js gh");
 window.addEventListener("load", () => {
   console.log("mongo.js gh load LwdHashRouter", LwdHashRouter.params);
-  Mongo.projectId ||= LwdHashRouter.storeAndDelete("mongoProjectId");
-  Mongo.provider ||= LwdHashRouter.storeAndDelete("mongoProvider");
-  Mongo.region ||= LwdHashRouter.storeAndDelete("mongoRegion");
+  Mongo.projectId =
+    LwdHashRouter.storeAndDelete("mongoProjectId") || Mongo.projectId;
+  Mongo.provider =
+    LwdHashRouter.storeAndDelete("mongoProvider") || Mongo.provider;
+  Mongo.region = LwdHashRouter.storeAndDelete("mongoRegion") || Mongo.region;
 });
 class Mongo {
   // static accessToken = localStorage.getItem("mongoAccessToken");
