@@ -40,7 +40,7 @@ function renderImportBtn(rawSourceUrl, onclick) {
 }
 
 async function createImage(imageData) {
-  hostImagePomise = hostImage(imageData.sourceToHost);
+  hostImagePomise = imageHost.upload(imageData.sourceToHost);
   imageData = await validateImageData(imageData);
   imageData.addedTags = imageData.tags;
   console.log("createImage", imageData);
