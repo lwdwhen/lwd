@@ -157,34 +157,39 @@ class LwdForm extends LwdHTML {
 class LwdGalery extends LwdHTML {
   constructor(items, attrs = {}) {
     super("galery", attrs);
+
+    this.focusedItem = undefined;
+    this.nextItem = undefined;
+    this.previousItem = undefined;
+    this.items = items;
+
     this.focusItem = (item) => {
       console.log("focusItem", items, item, this.items.indexOf(item));
-      this.focusedItem = item;
-      this.focusImageElement.src =
-        item.src || item.thumb || item.imgOriginal || item.imageUrl;
+      let index = this.items.findIndex(({ _id }) => item._id == _id);
+      this.focusedItem = { ...this.items[index], index: index };
+      this.nextItem = { ...this.items[index + 1], index: index + 1 };
+      this.previousItem = { ...this.items[index - 1], index: index - 1 };
+
+      this.focusImageElement.src = item.imgOriginal || item.imgSample;
       this.focusImageElement.style.zoom = item.zoom || "100%";
       this.focusContainer.hidden = false;
-      this.focusContainer.className = item.className || "focus-container";
+      this.focusContainer.className = `focus-container ${item.className}`;
 
-      let itemIndex = this.items.findIndex((i) => item._id == i._id);
-      let nextItem = this.items[itemIndex + 1];
-      this.nextBtn.hidden = !nextItem;
-      if (nextItem) this.nextBtn.onclick = () => this.focusNextItem(nextItem);
-
-      let previousItem = this.items[itemIndex - 1];
-      this.previousBtn.hidden = !previousItem;
-      if (previousItem)
-        this.previousBtn.onclick = () => this.focusPreviousItem(previousItem);
+      this.nextBtn.hidden = !this.nextItem?._id;
+      this.previousBtn.hidden = !this.previousItem?._id;
     };
-    this.focusNextItem = (nextItem) => this.focusItem(nextItem);
-    this.focusPreviousItem = (previousItem) => this.focusItem(previousItem);
+    this.focusNextItem = () =>
+      this.nextItem?._id && this.focusItem(this.nextItem);
+    this.focusPreviousItem = () =>
+      this.previousItem?._id && this.focusItem(this.previousItem);
+
     this.closeFocus = () => {
       this.focusContainer.hidden = true;
       this.focusedItem = undefined;
+      this.nextItem = undefined;
+      this.previousItem = undefined;
     };
 
-    this.focusedItem = undefined;
-    this.items = items;
     items.forEach((item) => {
       let frame = new LwdHashLink(item.hash, {
         className: "frame",
@@ -220,13 +225,21 @@ class LwdGalery extends LwdHTML {
     let enableActiveToogle = false;
     this.nextBtn = new LwdTile({ id: "next-btn", enableActiveToogle });
     this.focusContainer.append(this.nextBtn);
+    this.nextBtn.onclick = this.focusNextItem;
 
     this.previousBtn = new LwdTile({ id: "previous-btn", enableActiveToogle });
     this.focusContainer.append(this.previousBtn);
+    this.previousBtn.onclick = this.focusPreviousItem;
 
     this.imgControl = new LwdImgControl(attrs.imgControl);
     this.focusContainer.append(this.imgControl);
     LwdImgControl.proximityOpacity(this.focusContainer, this.imgControl);
+
+    this.focusContainer.addEventListener("swipeup", this.closeFocus);
+    this.focusContainer.addEventListener("swipedown", this.closeFocus);
+
+    this.focusContainer.addEventListener("swipeleft", this.focusNextItem);
+    this.focusContainer.addEventListener("swiperight", this.focusPreviousItem);
   }
 }
 
@@ -634,3 +647,46 @@ class LwdHashRouter {
 // LwdHashRouter.refresh();
 
 addEventListener("hashchange", LwdHashRouter.refresh);
+
+const swipeUp = new CustomEvent("swipeup", {
+  detail: { name: "cat" },
+  bubbles: true,
+});
+const swipeDown = new CustomEvent("swipedown", {
+  detail: { name: "cat" },
+  bubbles: true,
+});
+const swipeLeft = new CustomEvent("swipeleft", {
+  detail: { name: "cat" },
+  bubbles: true,
+});
+const swipeRight = new CustomEvent("swiperight", {
+  detail: { name: "cat" },
+  bubbles: true,
+});
+
+var touchX, touchY;
+document.addEventListener("touchstart", (e) => {
+  touchX = e.changedTouches[0].clientX;
+  touchY = e.changedTouches[0].clientY;
+});
+
+document.addEventListener("touchend", (e) => {
+  let deltaX = e.changedTouches[0].clientX - touchX || 0.0001;
+  let deltaY = e.changedTouches[0].clientY - touchY || 0.0001;
+  let target = e.changedTouches[0].target;
+
+  if (
+    Math.abs(deltaX / document.body.clientWidth) < 0.08 &&
+    Math.abs(deltaY / document.body.clientHeight) < 0.08
+  )
+    return;
+
+  if (Math.abs(deltaY / deltaX) > 1.2) {
+    if (deltaY > 0) target.dispatchEvent(swipeDown);
+    else target.dispatchEvent(swipeUp);
+  } else if (Math.abs(deltaX / deltaY) > 1.2) {
+    if (deltaX > 0) target.dispatchEvent(swipeRight);
+    else target.dispatchEvent(swipeLeft);
+  }
+});
