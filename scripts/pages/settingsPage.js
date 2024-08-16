@@ -25,7 +25,12 @@ function createSettingsPage() {
   );
   settingsPage.append(
     new LwdP({
-      textContent: `screen.width ${screen.width}x${screen.width}`,
+      textContent: `screen.width ${screen.width}x${screen.height}`,
+    })
+  );
+  settingsPage.append(
+    new LwdP({
+      textContent: `window.innerWidth ${window.innerWidth}x${window.innerHeight}`,
     })
   );
 }
