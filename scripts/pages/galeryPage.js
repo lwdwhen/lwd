@@ -6,7 +6,7 @@ var galeryPage,
   loadedPage,
   lastPage;
 const pageSize = 72;
-const sortBy = sortDirection = false;
+const sortBy = (sortDirection = false);
 
 function createGaleryPage() {
   galeryPage = document.querySelector(`page[href='galery']`);
@@ -20,7 +20,7 @@ function createGaleryPage() {
 async function renderGaleryPage() {
   let galerySearch = LwdHashRouter.get("galerySearch")?.trim();
   let imageId = LwdHashRouter.get("imageId");
-  let currentPage = parseInt(LwdHashRouter.get("page"));
+  let currentPage = parseInt(LwdHashRouter.get("page")) || 1;
   console.log("renderGaleryPage", galerySearch, imageId, currentPage);
 
   if (galerySearch != lastSearch) {
@@ -32,7 +32,7 @@ async function renderGaleryPage() {
 
   if (currentPage != loadedPage) {
     console.log("currentPage != loadedPage", currentPage, "!=", loadedPage);
-    loadedPage = currentPage || 1;
+    loadedPage = currentPage;
 
     galeryPage.innerHTML = "";
     galeryPage.append((galeryGalery = renderGalery(imageList, loadedPage)));
@@ -115,6 +115,7 @@ function renderGalery(images, page) {
   });
   galery.set("closeFocus", (originalFunction) => (focusedItem) => {
     originalFunction(focusedItem);
+    focusedImage = undefined;
     LwdHashRouter.delete("imageId");
   });
 
@@ -126,17 +127,7 @@ function serializeGaleryItems(images, page) {
     ...image,
     id: `image-id-${image._id}`,
     info: `${image.score ? `S${image.score}` : "NS"} | T${image?.tags?.length}`,
-    // thumb:
-    //   image.src?.thumb ||
-    //   image.src?.sample ||
-    //   image.src?.original ||
-    //   image.imgThumb,
-    // src:
-    //   image.src?.original ||
-    //   image.src?.sample ||
-    //   image.src?.thumb ||
-    //   image.imgOriginal,
-    // tags: image.tags,
+    hash: { ...LwdHashRouter.params, imageId: image._id },
   }));
 }
 

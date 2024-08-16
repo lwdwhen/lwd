@@ -198,18 +198,17 @@ class LwdGalery extends LwdHTML {
       this.append(frame);
       if (item.info) frame.append(item.info);
       // if (item.href) frame.href = item.href;
-      frame.onclick = (e) => {
-        e.preventDefault();
-        this.focusItem(item);
-        // if (item.onclick) item.onclick(e, item);
-        // else this.focusItem(item);
-      };
+      // frame.onclick = (e) => {
+      //   e.preventDefault();
+      //   this.focusItem(item);
+      //   // if (item.onclick) item.onclick(e, item);
+      //   // else this.focusItem(item);
+      // };
 
       let img = document.createElement("img");
       frame.prepend(img);
       if (item.id) img.id = item.id;
-      if (item.thumb || item.src || item.thumbUrl)
-        img.src = item.thumb || item.src || item.thumbUrl;
+      if (item.thumbUrl) img.src = item.thumbUrl;
     });
 
     this.focusContainer = document.createElement("div");
@@ -553,6 +552,7 @@ class LwdHashRouter {
     );
 
   static stringifyLocationHash = (params) =>
+    "#" +
     Object.entries(params)
       .map((p) => p.join("="))
       .join("&");
