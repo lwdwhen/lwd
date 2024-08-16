@@ -234,11 +234,14 @@ class LwdGalery extends LwdHTML {
     this.focusContainer.append(this.imgControl);
     LwdImgControl.proximityOpacity(this.focusContainer, this.imgControl);
 
-    this.focusContainer.addEventListener("swipeup", this.closeFocus);
-    this.focusContainer.addEventListener("swipedown", this.closeFocus);
+    this.focusContainer.addEventListener("swipeup", () => this.closeFocus);
+    this.focusContainer.addEventListener("swipedown", () => this.closeFocus);
 
-    this.focusContainer.addEventListener("swipeleft", this.focusNextItem);
-    this.focusContainer.addEventListener("swiperight", this.focusPreviousItem);
+    this.focusContainer.addEventListener("swipeleft", () => this.focusNextItem);
+    this.focusContainer.addEventListener(
+      "swiperight",
+      () => this.focusPreviousItem
+    );
   }
 }
 
