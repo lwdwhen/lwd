@@ -672,7 +672,7 @@ document.addEventListener("touchstart", (e) => {
 });
 
 document.addEventListener("touchend", (e) => {
-  if (e.changedTouches.length > 1) return; // multiple fingers
+  if (e.touches.length > 1 || e.changedTouches.length > 1) return; // multiple fingers
 
   let deltaX = e.changedTouches[0].clientX - touchX || 0.0001;
   let deltaY = e.changedTouches[0].clientY - touchY || 0.0001;
