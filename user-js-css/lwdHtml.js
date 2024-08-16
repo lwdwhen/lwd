@@ -672,6 +672,8 @@ document.addEventListener("touchstart", (e) => {
 });
 
 document.addEventListener("touchend", (e) => {
+  if (e.changedTouches.length > 1) return; // multiple fingers
+
   let deltaX = e.changedTouches[0].clientX - touchX || 0.0001;
   let deltaY = e.changedTouches[0].clientY - touchY || 0.0001;
   let target = e.changedTouches[0].target;
@@ -683,9 +685,11 @@ document.addEventListener("touchend", (e) => {
     return;
 
   if (Math.abs(deltaY / deltaX) > 1.2) {
+    // vertical
     if (deltaY > 0) target.dispatchEvent(swipeDown);
     else target.dispatchEvent(swipeUp);
   } else if (Math.abs(deltaX / deltaY) > 1.2) {
+    // horizontal
     if (deltaX > 0) target.dispatchEvent(swipeRight);
     else target.dispatchEvent(swipeLeft);
   }
