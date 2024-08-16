@@ -33,6 +33,11 @@ function createSettingsPage() {
       textContent: `window.innerWidth ${window.innerWidth}x${window.innerHeight}`,
     })
   );
+  settingsPage.append(
+    new LwdP({
+      textContent: `window.devicePixelRatio ${window.devicePixelRatio}`,
+    })
+  );
 }
 
 async function renderSettingsPage() {}
