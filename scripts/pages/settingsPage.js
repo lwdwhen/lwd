@@ -18,7 +18,16 @@ function createSettingsPage() {
       onclick: () => window.snackbar.fire("11"),
     })
   );
-  settingsPage.append(new LwdP({ textContent: `${document.body.clientWidth}x${document.body.clientHeight}`}));
+  settingsPage.append(
+    new LwdP({
+      textContent: `document.body.clientWidth ${document.body.clientWidth}x${document.body.clientHeight}`,
+    })
+  );
+  settingsPage.append(
+    new LwdP({
+      textContent: `screen.width ${screen.width}x${screen.width}`,
+    })
+  );
 }
 
 async function renderSettingsPage() {}
