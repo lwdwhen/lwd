@@ -675,6 +675,11 @@ document.addEventListener("touchstart", (e) => {
 });
 
 document.addEventListener("touchend", (e) => {
+  console.log(e.touches,{...e.changedTouches}, e.changedTouches, e, JSON.stringify(e));
+
+  settingsPage.append(
+    new LwdP({ textContent: `\n\n${JSON.stringify(e.touches)}\n${JSON.stringify({...e.changedTouches})}` })
+  );
   if (e.touches.length > 1 || e.changedTouches.length > 1) return; // multiple fingers
 
   let deltaX = e.changedTouches[0].clientX - touchX || 0.0001;
