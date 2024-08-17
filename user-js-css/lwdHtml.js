@@ -671,7 +671,7 @@ const swipeRight = new CustomEvent("swiperight", {
 var touchX, touchY;
 document.addEventListener("touchstart", (e) => {
   settingsPage.append(
-    new LwdP({ textContent: `\n\n${JSON.stringify(e.touches)}\n${JSON.stringify({...e.changedTouches})}` })
+    new LwdP({ textContent: `\n\n touchstart ${JSON.stringify(e.touches)}\n${JSON.stringify({...e.changedTouches})}` })
   );
   touchX = e.changedTouches[0].clientX;
   touchY = e.changedTouches[0].clientY;
@@ -681,7 +681,7 @@ document.addEventListener("touchend", (e) => {
   console.log(e.touches,{...e.changedTouches}, e.changedTouches, e, JSON.stringify(e));
 
   settingsPage.append(
-    new LwdP({ textContent: `\n\n${JSON.stringify(e.touches)}\n${JSON.stringify({...e.changedTouches})}` })
+    new LwdP({ textContent: `\n\n touchend ${JSON.stringify(e.touches)}\n${JSON.stringify({...e.changedTouches})}` })
   );
   if (e.touches.length > 1 || e.changedTouches.length > 1) return; // multiple fingers
 
