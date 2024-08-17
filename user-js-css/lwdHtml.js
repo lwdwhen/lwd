@@ -670,6 +670,9 @@ const swipeRight = new CustomEvent("swiperight", {
 
 var touchX, touchY;
 document.addEventListener("touchstart", (e) => {
+  settingsPage.append(
+    new LwdP({ textContent: `\n\n${JSON.stringify(e.touches)}\n${JSON.stringify({...e.changedTouches})}` })
+  );
   touchX = e.changedTouches[0].clientX;
   touchY = e.changedTouches[0].clientY;
 });
