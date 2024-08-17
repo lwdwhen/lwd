@@ -668,22 +668,38 @@ const swipeRight = new CustomEvent("swiperight", {
   bubbles: true,
 });
 
-var touchX, touchY;
+var touchX, touchY, multiTouch;
 document.addEventListener("touchstart", (e) => {
   settingsPage.append(
-    new LwdP({ textContent: `\n\n touchstart ${JSON.stringify(e.touches)}\n${JSON.stringify({...e.changedTouches})}` })
+    new LwdP({
+      textContent: `\n\n touchstart ${JSON.stringify(
+        e.touches
+      )}\n${JSON.stringify({ ...e.changedTouches })}`,
+    })
   );
   touchX = e.changedTouches[0].clientX;
   touchY = e.changedTouches[0].clientY;
+  multiTouch = e.touches.length > 1; // started touch but was already touching
 });
 
 document.addEventListener("touchend", (e) => {
-  console.log(e.touches,{...e.changedTouches}, e.changedTouches, e, JSON.stringify(e));
+  console.log(
+    e.touches,
+    { ...e.changedTouches },
+    e.changedTouches,
+    e,
+    JSON.stringify(e)
+  );
 
   settingsPage.append(
-    new LwdP({ textContent: `\n\n touchend ${JSON.stringify(e.touches)}\n${JSON.stringify({...e.changedTouches})}` })
+    new LwdP({
+      textContent: `\n\n touchend ${JSON.stringify(
+        e.touches
+      )}\n${JSON.stringify({ ...e.changedTouches })}`,
+    })
   );
-  if (e.touches.length > 1 || e.changedTouches.length > 1) return; // multiple fingers
+  if (e.touches.length > 0) return; // still touching screen
+  if (multiTouch) return (multiTouch = undefined); // finished multi touch
 
   let deltaX = e.changedTouches[0].clientX - touchX || 0.0001;
   let deltaY = e.changedTouches[0].clientY - touchY || 0.0001;
