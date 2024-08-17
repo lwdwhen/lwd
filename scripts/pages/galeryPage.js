@@ -118,6 +118,7 @@ function renderGalery(images, page) {
     focusedImage = undefined;
     LwdHashRouter.delete("imageId");
   });
+  galery.addSwipeListeners()
 
   return galery;
 }

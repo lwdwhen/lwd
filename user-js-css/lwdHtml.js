@@ -234,14 +234,16 @@ class LwdGalery extends LwdHTML {
     this.focusContainer.append(this.imgControl);
     LwdImgControl.proximityOpacity(this.focusContainer, this.imgControl);
 
-    this.focusContainer.addEventListener("swipeup", () => this.closeFocus);
-    this.focusContainer.addEventListener("swipedown", () => this.closeFocus);
+    this.addSwipeListeners = () => {
+      this.focusContainer.addEventListener("swipeup", this.closeFocus);
+      this.focusContainer.addEventListener("swipedown", this.closeFocus);
 
-    this.focusContainer.addEventListener("swipeleft", () => this.focusNextItem);
-    this.focusContainer.addEventListener(
-      "swiperight",
-      () => this.focusPreviousItem
-    );
+      this.focusContainer.addEventListener("swipeleft", this.focusNextItem);
+      this.focusContainer.addEventListener(
+        "swiperight",
+        this.focusPreviousItem
+      );
+    };
   }
 }
 
@@ -683,13 +685,7 @@ document.addEventListener("touchstart", (e) => {
 });
 
 document.addEventListener("touchend", (e) => {
-  console.log(
-    e.touches,
-    { ...e.changedTouches },
-    e.changedTouches,
-    e,
-    JSON.stringify(e)
-  );
+  console.log(e.touches, e.changedTouches, e);
 
   settingsPage.append(
     new LwdP({
@@ -698,6 +694,8 @@ document.addEventListener("touchend", (e) => {
       )}\n${JSON.stringify({ ...e.changedTouches })}`,
     })
   );
+  if (e.touches.length > 0) console.log("still touching screen");
+  if (multiTouch) console.log("finished multi touch");
   if (e.touches.length > 0) return; // still touching screen
   if (multiTouch) return (multiTouch = undefined); // finished multi touch
 
@@ -710,6 +708,7 @@ document.addEventListener("touchend", (e) => {
     Math.abs(deltaY / document.body.clientHeight) < 0.08
   )
     return;
+  console.log("yay 713");
 
   if (Math.abs(deltaY / deltaX) > 1.2) {
     // vertical
