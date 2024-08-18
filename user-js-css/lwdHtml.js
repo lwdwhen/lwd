@@ -196,17 +196,12 @@ class LwdGalery extends LwdHTML {
         href: item.href,
       });
       this.append(frame);
+
       if (item.info) frame.append(item.info);
-      // if (item.href) frame.href = item.href;
-      // frame.onclick = (e) => {
-      //   e.preventDefault();
-      //   this.focusItem(item);
-      //   // if (item.onclick) item.onclick(e, item);
-      //   // else this.focusItem(item);
-      // };
 
       let img = document.createElement("img");
       frame.prepend(img);
+
       if (item.id) img.id = item.id;
       if (item.thumbUrl) img.src = item.thumbUrl;
     });
@@ -672,12 +667,30 @@ const swipeRight = new CustomEvent("swiperight", {
 
 var touchX, touchY, multiTouch;
 document.addEventListener("touchstart", (e) => {
+  settingsPage.append(
+    new LwdP({
+      textContent: `\n\n touchstart ${JSON.stringify(
+        e.touches
+      )}\n${JSON.stringify({ ...e.changedTouches })}`,
+    })
+  );
   touchX = e.changedTouches[0].clientX;
   touchY = e.changedTouches[0].clientY;
   multiTouch = e.touches.length > 1; // started touch but was already touching
 });
 
 document.addEventListener("touchend", (e) => {
+  console.log(e.touches, e.changedTouches, e);
+
+  settingsPage.append(
+    new LwdP({
+      textContent: `\n\n touchend ${JSON.stringify(
+        e.touches
+      )}\n${JSON.stringify({ ...e.changedTouches })}`,
+    })
+  );
+  if (e.touches.length > 0) console.log("still touching screen");
+  if (multiTouch) console.log("finished multi touch");
   if (e.touches.length > 0) return; // still touching screen
   if (multiTouch) return (multiTouch = undefined); // finished multi touch
 
@@ -690,6 +703,7 @@ document.addEventListener("touchend", (e) => {
     Math.abs(deltaY / document.body.clientHeight) < 0.08
   )
     return;
+  console.log("yay 713");
 
   if (Math.abs(deltaY / deltaX) > 1.2) {
     // vertical

@@ -17,6 +17,7 @@ p[lwd] {
   align-content: center;
   margin: 0;
   padding: 0;
+  text-decoration: none;
 }
 
 autocomplete[lwd] {
@@ -46,37 +47,16 @@ autocomplete[lwd]>div div:hover {
 }
 
 galery[lwd] {
-  width: 100%;
+  max-width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, 134px);
   grid-template-rows: repeat(auto-fill, 140px);
-  grid-gap: 6px;
+  grid-gap: 8px;
   align-items: center;
   justify-items: center;
   justify-content: center;
   overflow: auto;
   scrollbar-width: none;
-}
-
-galery[lwd]>a.frame[lwd] {
-  max-height: calc(100% - 3px);
-  padding: 1.5px;
-  background: var(--bgc-4);
-  font-size: 10px;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-galery[lwd]>a>img {
-  display: block;
-  max-width: 124px;
-  max-height: 126px;
-  min-width: 60px;
-  height: max-content;
-  width: max-content;
-  object-fit: cover;
 }
 
 galery[lwd] .focus-container {

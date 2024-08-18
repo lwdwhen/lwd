@@ -1,38 +1,44 @@
-page[href='galery'] {
+page[href="galery"] {
   background-color: cadetblue;
-
+  --thumbSize: 162px;
+  --infoFontSize: 10px;
 }
 
-page[href='galery'] galery {
+page[href="galery"] galery {
   width: 100%;
-  padding-top: 12px;
+  padding: 12px 4px;
   align-self: end;
   justify-content: end;
 
-  grid-template-columns: repeat(auto-fill, 134px);
-  grid-template-rows: repeat(auto-fill, 133px);
+  grid-template-columns: repeat(auto-fill, var(--thumbSize));
+  grid-template-rows: repeat(auto-fill, var(--thumbSize));
   height: calc(100% - 40px);
 }
 
-page[href='galery'] pagination {
-  height: 40px;
+galery[lwd] a.frame[lwd] {
+  max-height: calc(100% - 3px);
+  max-width: calc(100% - 3px);
+  padding: 1.5px;
+  background: var(--bgc-4);
+  font-size: var(--infoFontSize);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-page[href='galery'] galery>a>img {
-  display: block;
-  max-width: 124px;
-  max-height: 120px;
-  min-width: 60px;
-  height: max-content;
-  object-fit: cover;
+page[href="galery"] galery[lwd] .frame img {
+  max-width: calc(var(--thumbSize) - 3px);
+  max-height: calc(var(--thumbSize) - var(--infoFontSize) - 3px);
 }
 
-
-.delete-mode page[href='galery'] galery .frame[lwd] {
+.delete-mode page[href="galery"] galery[lwd] .frame[lwd] {
   background-color: red;
 }
 
-
+page[href="galery"] pagination {
+  height: 40px;
+}
 
 /*********** Baseline, reset styles ***********/
 input[type="range"] {
@@ -95,4 +101,15 @@ input[type="range"]::-moz-range-thumb {
 input[type="range"]:focus::-moz-range-thumb {
   outline: 3px solid #808080;
   outline-offset: 0.125rem;
+}
+
+@media (hover: none),
+(max-width: 600px) {
+  page[href="galery"] {
+    --thumbSize: 95px;
+  }
+
+  page[href="galery"] galery[lwd] {
+    padding-top: 28px;
+  }
 }

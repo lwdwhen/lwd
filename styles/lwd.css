@@ -56,14 +56,15 @@ page {
   height: 100%;
 }
 
-.explandable:not(.expanded):not(.pinned):not(.expandPage) * {
+.explandable:not(.expanded):not(.pinned):not(.expandPage):not(.mobile) * {
   display: none;
   background: none;
 }
 
 .explandable.expanded,
 .explandable.pinned,
-.explandable.expandPage {
+.explandable.expandPage,
+.explandable.mobile {
   background: rgb(24 17 70 / 80%);
 }
 
