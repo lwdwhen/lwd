@@ -7,10 +7,25 @@ function createTopSection() {
   topSection.onmouseenter = (e) => e.target.classList.add("expanded");
   topSection.onmouseleave = (e) => e.target.classList.remove("expanded");
 
+  topSection.append((mobileSideSectionOpenner = new LwdSvg("info")));
+  mobileSideSectionOpenner.id = "side-section-focus";
+  mobileSideSectionOpenner.classList.add("toogle-mobile");
+  mobileSideSectionOpenner.onclick = () =>
+    sideSection.classList.toggle("mobile");
+
   topSection.append(createGalerySearch());
   topSection.append(createTopNavMenu());
 
+  topSection.append((mobileNavOpenner = new LwdSvg("menuBurger")));
+  mobileNavOpenner.id = "nav-focus";
+  mobileNavOpenner.classList.add("toogle-mobile");
+  mobileNavOpenner.onclick = toogleMobileNavFocus;
+
   return topSection;
+}
+
+function toogleMobileNavFocus() {
+  topSection.classList.toggle("nav-focus");
 }
 
 function createGalerySearch() {
