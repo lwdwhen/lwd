@@ -27,6 +27,27 @@ galery[lwd] a.frame[lwd] {
   align-items: center;
 }
 
+/* galery[lwd]>a>img {
+  display: block;
+  max-width: 124px;
+  max-height: 126px;
+  min-width: 60px;
+  height: max-content;
+  width: max-content;
+  object-fit: cover;
+} */
+
+page[href="galery"] galery a img {
+  /* max-width: 100%;
+  max-height: 100%; */
+  /* display: block;
+  max-width: 124px;
+  max-height: 120px;
+  min-width: 60px;
+  height: max-content;
+  object-fit: cover; */
+}
+
 page[href="galery"] galery[lwd] .frame img {
   max-width: calc(var(--thumbSize) - 3px);
   max-height: calc(var(--thumbSize) - var(--infoFontSize) - 3px);

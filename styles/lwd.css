@@ -54,6 +54,7 @@ page {
   top: 0;
   display: flex;
   height: 100%;
+  z-index: 10;
 }
 
 .explandable:not(.expanded):not(.pinned):not(.expandPage):not(.mobile) * {

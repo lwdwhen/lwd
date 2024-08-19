@@ -250,8 +250,10 @@ class LwdHashLink extends LwdHTML {
 
     this.onclick = (e) => {
       e.preventDefault();
-      if (this.quiet) LwdHashRouter.params = urlHash;
+      LwdHashRouter.params = urlHash;
       location.hash = LwdHashRouter.stringifyLocationHash(urlHash);
+      // if (!this.quiet)
+      LwdHashRouter.refresh();
     };
   }
 }
@@ -625,11 +627,11 @@ class LwdHashRouter {
   }
 
   static refresh() {
-    if (!LwdHashRouter.locationHashDiffParams()) return;
-    LwdHashRouter.params = LwdHashRouter.parseLocationHash();
+    if (LwdHashRouter.locationHashDiffParams())
+      LwdHashRouter.params = LwdHashRouter.parseLocationHash();
 
-    if (!LwdHashRouter.get("href")) return;
-    LwdHashRouter.displayPage(LwdHashRouter.get("href"));
+    if (LwdHashRouter.get("href"))
+      LwdHashRouter.displayPage(LwdHashRouter.get("href"));
   }
 
   // pagesDefinitions = [{ href, onCreate, onRender }]
@@ -646,7 +648,7 @@ class LwdHashRouter {
 }
 // LwdHashRouter.refresh();
 
-addEventListener("hashchange", LwdHashRouter.refresh);
+// addEventListener("hashchange", LwdHashRouter.refresh);
 
 const swipeUp = new CustomEvent("swipeup", {
   detail: { name: "cat" },

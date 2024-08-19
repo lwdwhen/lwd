@@ -23,17 +23,22 @@ async function renderGaleryPage() {
   let currentPage = parseInt(LwdHashRouter.get("page")) || 1;
   console.log("renderGaleryPage", galerySearch, imageId, currentPage);
 
+  let rerenderNedded = false;
   if (galerySearch != lastSearch) {
     console.log("galerySearch != lastSearch", galerySearch, "!=", lastSearch);
     imageList = await searchImages(galerySearch);
     lastSearch = galerySearch;
     lastPage = Math.ceil(imageList.length / pageSize);
+    rerenderNedded = true;
   }
 
   if (currentPage != loadedPage) {
     console.log("currentPage != loadedPage", currentPage, "!=", loadedPage);
     loadedPage = currentPage;
+    rerenderNedded = true;
+  }
 
+  if (rerenderNedded) {
     galeryPage.innerHTML = "";
     galeryPage.append((galeryGalery = renderGalery(imageList, loadedPage)));
 
@@ -47,7 +52,6 @@ async function renderGaleryPage() {
       //     .querySelector("galery")
       //     .replaceWith(renderGalery(imageList, pageNumber));
     });
-
     // preloadImages(imageList.map((image) => image.src.thumb));
   }
 
@@ -59,10 +63,10 @@ async function renderGaleryPage() {
     if (focusedImage?._id) {
       galeryGalery.focusItem(focusedImage);
       // renderLwdImageData(focusedImage);
-      // renderTagList(focusedImage.tags);
+      renderTagList(focusedImage.tags);
     } else {
       galeryGalery.closeFocus();
-      // displayGaleryPageActions();
+      renderGaleryPageActions();
     }
   }
 }
@@ -118,7 +122,7 @@ function renderGalery(images, page) {
     focusedImage = undefined;
     LwdHashRouter.delete("imageId");
   });
-  galery.addSwipeListeners()
+  galery.addSwipeListeners();
 
   return galery;
 }

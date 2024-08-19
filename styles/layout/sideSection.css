@@ -5,7 +5,7 @@
 }
 
 #side-section-content {
-    flex: 1;
+    width: calc(100% - 4px - 4px);
     padding: 8px 2px 20px;
     display: flex;
     flex-direction: column;
@@ -27,11 +27,13 @@
     display: flex !important;
 }
 
-#tag-list li p {
+#tag-list li p,
+#tag-list li a {
     margin: 2px;
     line-height: normal;
     cursor: pointer;
     display: inline;
+    color: inherit;
 }
 
 #tag-list li p>p {
@@ -74,7 +76,7 @@
     color: palevioletred;
 }
 
-form#image-data [type=text][lwd] {
+form#image-data [type="text"][lwd] {
     height: auto !important;
 }
 
@@ -101,7 +103,7 @@ form#image-data tile[lwd] {
     margin: 0;
 }
 
-#ai-tags-modal input[type='checkbox'] {
+#ai-tags-modal input[type="checkbox"] {
     display: inline !important;
 }
 
