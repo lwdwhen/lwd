@@ -1,50 +1,50 @@
 // password gxScPZm3yuxhleZj
 
-class Supabase {
+const Api = class Supabase {
   static #baseApiUrl = "https://egywgecebbxmfvrvgupq.supabase.co/rest/v1";
   static apiKey = localStorage.getItem("Supabase.apiKey");
   static #headers = () => ({
     apikey: Supabase.apiKey,
     Authorization: `Bearer ${Supabase.apiKey}`,
     "Content-Type": "application/json",
+    Accept: "application/json",
+    Prefer: "return=representation",
   });
 
+  static #fetch({ table, method, select = [], filter = {}, body = false }) {
+    let selectParam = select.length == 0 ? "" : `select=${select.join(",")}&`;
+    let queryParams = `${selectParam}${Supabase.queryToString(filter)}`;
+
+    let params = { method, headers: Supabase.#headers() };
+    if (body) params.body = JSON.stringify(body);
+
+    return fetch(`${Supabase.#baseApiUrl}/${table}?${queryParams}`, params);
+  }
+
   // static CRUD
-  static create(table, data) {
-    return fetch(`${Supabase.#baseApiUrl}/${table}`, {
-      method: "POST",
-      headers: Supabase.#headers(),
-      body: JSON.stringify(data),
-    });
+  static create(table, body, select = ["*"]) {
+    return Supabase.#fetch({ table, method: "POST", body, select }).then(
+      (response) => response.json()
+    );
   }
 
-  static read(table, query = {}, select = ["*"]) {
-    let selectParam = `select=${select.join(",")}&`;
-    let queryParams = `${selectParam}${Supabase.queryToString(query)}`;
-
-    return fetch(`${Supabase.#baseApiUrl}/${table}?${queryParams}`, {
-      method: "GET",
-      headers: Supabase.#headers(),
-    });
+  static read(table, filter = {}, select = ["*"]) {
+    return Supabase.#fetch({ table, method: "GET", filter, select }).then(
+      (response) => response.json()
+    );
   }
 
-  static update(table, query, data) {
-    let queryParams = `${Supabase.queryToString(query)}`;
-
-    return fetch(`${Supabase.#baseApiUrl}/${table}?${queryParams}`, {
-      method: "PATCH",
-      headers: headers(),
-      body: JSON.stringify(data),
-    });
+  static update(table, filter, body, select = ["*"]) {
+    let method = "PATCH";
+    return Supabase.#fetch({ table, method, filter, body, select }).then(
+      (response) => response.json()
+    );
   }
 
-  static delete(table, query) {
-    let queryParams = `${Supabase.queryToString(query)}`;
-
-    return fetch(`${Supabase.#baseApiUrl}/${table}?${queryParams}`, {
-      method: "DELETE",
-      headers: headers(),
-    });
+  static delete(table, filter, select = ["*"]) {
+    return Supabase.#fetch({ table, method: "DELETE", filter, select }).then(
+      (response) => response.json()
+    );
   }
 
   static queryToString(query) {
@@ -60,4 +60,4 @@ class Supabase {
       return { ...acc, [column]: operatorValue };
     }, {});
   }
-}
+};
