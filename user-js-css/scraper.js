@@ -52,9 +52,9 @@ async function createImage(imageData) {
   imageData.imageUrl = hostedImage.image.url;
   imageData.hostedId = hostedImage.id;
 
-  return Mongo.insert("images", [imageData]).then((response) => {
+  return Api.create("images", imageData).then(([response]) => {
     window.snackbar.fire("Image Added", "success");
-    LwdHashRouter.set("lwdId", response.insertedId);
+    LwdHashRouter.set("lwdId", response.id);
     updateLwdImported(imageData.externalHosts[0]);
 
     return response;
@@ -64,9 +64,9 @@ async function createImage(imageData) {
 async function updateImage(imageLwdId, scrapeFunction) {
   imageDataPromise = scrapeFunction();
 
-  lwdImageDataPromise = Mongo.find("images", {
-    filter: { _id: imageLwdId },
-  }).then((r) => r.documents[0]);
+  lwdImageDataPromise = Api.read("images", { id: `eq.${imageLwdId}` }).then(
+    ([response]) => response
+  );
 
   lwdImageData = await lwdImageDataPromise;
   if (!lwdImageData)
@@ -98,17 +98,15 @@ async function updateImage(imageLwdId, scrapeFunction) {
 
   delete lwdImageData._id;
 
-  return Mongo.update(
-    "images",
-    { _id: imageLwdId },
-    { $set: lwdImageData }
-  ).then((response) => {
-    window.snackbar.fire("Tags Added", "success");
-    LwdHashRouter.set("lwdId", imageLwdId);
-    updateLwdImported(imageData.externalHosts[0]);
+  return Api.update("images", { id: `eq${imageLwdId}` }, lwdImageData).then(
+    ([response]) => {
+      window.snackbar.fire("Tags Added", "success");
+      LwdHashRouter.set("lwdId", imageLwdId);
+      updateLwdImported(imageData.externalHosts[0]);
 
-    return response;
-  });
+      return response;
+    }
+  );
 }
 
 async function validateImageData(imageData) {

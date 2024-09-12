@@ -1,73 +1,88 @@
-var galeryPage,
-  galeryGalery,
-  imageList,
-  lastSearch,
-  focusedImage,
-  loadedPage,
-  lastPage;
-const pageSize = 72;
-const sortBy = (sortDirection = false);
+var externalSearchPage,
+  externalSearchGalery,
+  externalImageList,
+  lastExternalSearch,
+  focusedExternalImage,
+  loadedExternalPage,
+  lastExternalPage;
+const externalPageSize = 72;
+const externalSortBy = (sortDirection = false);
 
-function createGaleryPage() {
-  galeryPage = document.querySelector(`page[href='galery']`);
-  let searchString = LwdHashRouter.get("galerySearch")?.trim();
-  searchImages(searchString).then((images) => {
-    imageList = images;
-    lastSearch = searchString;
-  });
+function createExternalSearchPage() {
+  externalSearchPage = document.querySelector(`page[href='external-search']`);
 }
 
-async function renderGaleryPage() {
-  let galerySearch = LwdHashRouter.get("galerySearch")?.trim();
+async function renderExternalSearchPage() {
+  let externalSearch = LwdHashRouter.get("external_search")?.trim();
   let imageId = LwdHashRouter.get("imageId");
   let currentPage = parseInt(LwdHashRouter.get("page")) || 1;
-  console.log("renderGaleryPage", galerySearch, imageId, currentPage);
+  console.log("renderExternalSearchPage", externalSearch, imageId, currentPage);
 
   let rerenderNedded = false;
-  if (galerySearch != lastSearch) {
-    console.log("galerySearch != lastSearch", galerySearch, "!=", lastSearch);
-    imageList = await searchImages(galerySearch);
-    lastSearch = galerySearch;
-    lastPage = Math.ceil(imageList.length / pageSize);
+  if (externalSearch != lastExternalSearch) {
+    console.log(
+      "externalSearch!=lastExternalSearch",
+      externalSearch,
+      lastExternalSearch
+    );
+    externalImageList = await externalApi.fetchRule34xxx(externalSearch);
+    lastExternalSearch = externalSearch;
+    lastExternalPage = Math.ceil(externalImageList.length / externalPageSize);
     rerenderNedded = true;
   }
 
-  if (currentPage != loadedPage) {
-    console.log("currentPage != loadedPage", currentPage, "!=", loadedPage);
-    loadedPage = currentPage;
+  if (currentPage != loadedExternalPage) {
+    console.log(
+      "currentPage != loadedExternalPage",
+      currentPage,
+      "!=",
+      loadedExternalPage
+    );
+    loadedExternalPage = currentPage;
     rerenderNedded = true;
   }
 
   if (rerenderNedded) {
-    galeryPage.innerHTML = "";
-    galeryPage.append((galeryGalery = renderGalery(imageList, loadedPage)));
+    externalSearchPage.innerHTML = "";
+    externalSearchPage.append(
+      (externalSearchGalery = renderGalery(
+        externalImageList,
+        loadedExternalPage
+      ))
+    );
 
-    let pagination = new LwdPagination(lastPage, currentPage);
-    galeryPage.append(pagination);
+    let pagination = new LwdPagination(lastExternalPage, currentPage);
+    externalSearchPage.append(pagination);
     pagination.set("onPageSelection", (originalFunction) => (getPage) => {
       let pageNumber = getPage();
       originalFunction(getPage);
       LwdHashRouter.set("page", pageNumber);
-      //   galeryPage
-      //     .querySelector("galery")
-      //     .replaceWith(renderGalery(imageList, pageNumber));
     });
+
     // preloadImages(imageList.map((image) => image.src.thumb));
   }
 
-  if (imageId != focusedImage?._id) {
-    console.log("imageId != focusedImage", imageId, "!=", focusedImage?._id);
-    focusedImage = findImage(imageId);
+  if (imageId != focusedExternalImage?.id) {
+    console.log(
+      "imageId != focusedExternalImage",
+      imageId,
+      "!=",
+      focusedExternalImage?.id
+    );
+    focusedImage = {
+      ...imageList[imageIndex],
+      index: imageList.findIndex((image) => image._id == imageId),
+    };
 
-    // resetAsideContent();
-    if (focusedImage?._id) {
-      galeryGalery.focusItem(focusedImage);
-      // renderLwdImageData(focusedImage);
-      renderTagList(focusedImage.tags);
-    } else {
-      galeryGalery.closeFocus();
-      renderGaleryPageActions();
-    }
+    // // resetAsideContent();
+    // if (focusedImage?._id) {
+    //   galeryGalery.focusItem(focusedImage);
+    //   // renderLwdImageData(focusedImage);
+    //   renderTagList(focusedImage.tags);
+    // } else {
+    //   galeryGalery.closeFocus();
+    //   renderGaleryPageActions();
+    // }
   }
 }
 
