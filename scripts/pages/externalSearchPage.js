@@ -9,7 +9,7 @@ const externalPageSize = 72;
 const externalSortBy = (sortDirection = false);
 
 function createExternalSearchPage() {
-  externalSearchPage = document.querySelector(`page[href='external-search']`);
+  externalSearchPage = document.querySelector(`page[href='external_search']`);
 }
 
 async function renderExternalSearchPage() {

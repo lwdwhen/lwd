@@ -63,6 +63,11 @@ async function renderLwd() {
 
   pagesDefinitions = [
     { href: "galery", onCreate: createGaleryPage, onRender: renderGaleryPage },
+    {
+      href: "external_search",
+      onCreate: createExternalSearchPage,
+      onRender: renderExternalSearchPage,
+    },
     // { href: "manage/tags", onCreate: () => {}, onRender: renderTagManagement },
     // { href: "watchlist", onCreate: () => {}, onRender: renderWatchlistPage },
     {
