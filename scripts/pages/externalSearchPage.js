@@ -69,18 +69,18 @@ async function renderExternalSearchPage() {
       "!=",
       focusedExternalImage?.id
     );
-    focusedImage = {
+    focusedExternalImage = {
       ...externalImageList.find((image) => image._id == imageId),
       index: externalImageList.findIndex((image) => image._id == imageId),
     };
 
     // // resetAsideContent();
-    if (focusedImage?._id) {
-      galeryGalery.focusItem(focusedImage);
-      // renderLwdImageData(focusedImage);
-      // renderTagList(focusedImage.tags);
+    if (focusedExternalImage?.id) {
+      externalSearchGalery.focusItem(focusedExternalImage);
+      // renderLwdImageData(focusedExternalImage);
+      // renderTagList(focusedExternalImage.tags);
     } else {
-      galeryGalery.closeFocus();
+      externalSearchGalery.closeFocus();
       // renderGaleryPageActions();
     }
   }
@@ -134,7 +134,7 @@ function renderGalery(images, page) {
   });
   galery.set("closeFocus", (originalFunction) => (focusedItem) => {
     originalFunction(focusedItem);
-    focusedImage = undefined;
+    focusedExternalImage = undefined;
     LwdHashRouter.delete("imageId");
   });
   galery.addSwipeListeners();
