@@ -70,8 +70,8 @@ async function renderExternalSearchPage() {
       focusedExternalImage?.id
     );
     focusedExternalImage = {
-      ...externalImageList.find((image) => image._id == imageId),
-      index: externalImageList.findIndex((image) => image._id == imageId),
+      ...externalImageList.find((image) => image.id == imageId),
+      index: externalImageList.findIndex((image) => image.id == imageId),
     };
 
     // // resetAsideContent();
