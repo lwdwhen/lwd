@@ -1,5 +1,3 @@
-var api = Supabase;
-
 if (Mongo.ready()) createLwd();
 if (Mongo.ready()) window.onload = renderLwd;
 
