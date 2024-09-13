@@ -28,7 +28,7 @@ page {
   justify-content: center;
   flex-direction: column;
 }
-
+/* 
 #image-list {
   width: 100%;
   display: grid;
@@ -46,7 +46,7 @@ page {
   max-width: 140px;
   max-height: 140px;
   height: max-content;
-}
+} */
 
 .explandable {
   position: absolute;
@@ -86,10 +86,6 @@ page {
   height: 20px;
   justify-content: space-between;
   align-items: center;
-}
-
-.display-none {
-  display: none !important;
 }
 
 /* // .autocomplete-items {
