@@ -1,6 +1,10 @@
 if (Mongo.ready()) createLwd();
 if (Mongo.ready()) window.onload = renderLwd;
 
+const mobile =
+  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
 var allTags;
 const categoriesOrder = {
   artist: 1,

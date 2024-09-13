@@ -5,7 +5,7 @@ var externalSearchPage,
   focusedExternalImage,
   loadedExternalPage,
   lastExternalPage;
-const externalPageSize = 72;
+const externalPageSize = mobile ? 15 : 72;
 const externalSortBy = (sortDirection = false);
 
 function createExternalSearchPage() {
@@ -83,46 +83,6 @@ async function renderExternalSearchPage() {
       externalSearchGalery.closeFocus();
       // renderGaleryPageActions();
     }
-  }
-}
-
-async function searchImages(searchString) {
-  searchString = searchString.trim();
-  if (searchString == lastSearch) return imageList;
-
-  return Mongo.find("images", {
-    filter: { ...searchTagsFilter(searchString), delete: { $ne: true } },
-    sort: { [sortBy || "lwdOrder"]: sortDirection || -1 },
-  }).then(({ documents }) => documents);
-}
-
-function searchTagsFilter(searchString) {
-  searchTags = searchString
-    .split(" ")
-    .filter((t) => !!t)
-    .reduce(
-      (acc, tagName) => {
-        tagName[0] == "-"
-          ? acc.negative.push(tagName.slice(1))
-          : acc.positive.push(tagName);
-        return acc;
-      },
-      { positive: [], negative: [] }
-    );
-
-  if (searchTags.positive.length + searchTags.negative.length > 0) {
-    console.log("searchTagsFilter", searchTags);
-
-    tagFilter = { $and: [] };
-
-    if (searchTags.positive.length)
-      tagFilter.$and.push({ tags: { $all: searchTags.positive } });
-
-    searchTags.negative.forEach((tagName) =>
-      tagFilter.$and.push({ tags: { $not: { $all: [tagName] } } })
-    );
-
-    return tagFilter;
   }
 }
 
