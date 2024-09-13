@@ -7,7 +7,7 @@ const externalApi = class {
       .then((response) => {
         return response.map((image) => ({
           id: image.id,
-          src: image.file_url,
+          srcOriginal: image.file_url,
           tags: image.tags.split(" "),
           domain: "https://rule34.xxx",
           href: `https://rule34.xxx/index.php?page=post&s=view&id=${image.id}`,

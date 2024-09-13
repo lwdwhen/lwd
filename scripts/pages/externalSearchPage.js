@@ -70,8 +70,8 @@ async function renderExternalSearchPage() {
       focusedExternalImage?.id
     );
     focusedImage = {
-      ...imageList[imageIndex],
-      index: imageList.findIndex((image) => image._id == imageId),
+      ...externalImageList.find((image) => image._id == imageId),
+      index: externalImageList.findIndex((image) => image._id == imageId),
     };
 
     // // resetAsideContent();
@@ -145,9 +145,10 @@ function renderGalery(images, page) {
 function serializeGaleryItems(images, page) {
   return images.slice((page - 1) * pageSize, page * pageSize).map((image) => ({
     ...image,
-    id: `image-id-${image._id}`,
+    id: `image-id-${image.id}`,
     info: `${image.score ? `S${image.score}` : "NS"} | T${image?.tags?.length}`,
-    hash: { ...LwdHashRouter.params, imageId: image._id },
+    hash: { ...LwdHashRouter.params, imageId: image.id },
+    imgOriginal: image.srcOriginal
   }));
 }
 
@@ -162,7 +163,7 @@ function imageClickAction(item) {
     }
     return false;
   } else {
-    LwdHashRouter.set("imageId", item._id);
+    LwdHashRouter.set("imageId", item.id);
     // resetAsideContent();
     // renderLwdImageData(item);
     // renderTagList(item.tags);
