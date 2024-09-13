@@ -75,14 +75,14 @@ async function renderExternalSearchPage() {
     };
 
     // // resetAsideContent();
-    // if (focusedImage?._id) {
-    //   galeryGalery.focusItem(focusedImage);
-    //   // renderLwdImageData(focusedImage);
-    //   renderTagList(focusedImage.tags);
-    // } else {
-    //   galeryGalery.closeFocus();
-    //   renderGaleryPageActions();
-    // }
+    if (focusedImage?._id) {
+      galeryGalery.focusItem(focusedImage);
+      // renderLwdImageData(focusedImage);
+      // renderTagList(focusedImage.tags);
+    } else {
+      galeryGalery.closeFocus();
+      // renderGaleryPageActions();
+    }
   }
 }
 
@@ -148,7 +148,8 @@ function serializeGaleryItems(images, page) {
     id: `image-id-${image.id}`,
     info: `${image.score ? `S${image.score}` : "NS"} | T${image?.tags?.length}`,
     hash: { ...LwdHashRouter.params, imageId: image.id },
-    imgOriginal: image.srcOriginal
+    imgOriginal: image.srcOriginal,
+    thumbUrl: image.srcThumb,
   }));
 }
 

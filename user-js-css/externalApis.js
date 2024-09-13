@@ -8,6 +8,7 @@ const externalApi = class {
         return response.map((image) => ({
           id: image.id,
           srcOriginal: image.file_url,
+          srcThumb: image.sample_url,
           tags: image.tags.split(" "),
           domain: "https://rule34.xxx",
           href: `https://rule34.xxx/index.php?page=post&s=view&id=${image.id}`,
