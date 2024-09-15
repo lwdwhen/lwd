@@ -103,7 +103,7 @@ function renderGalery(images, page) {
 }
 
 function serializeGaleryItems(images, page) {
-  return images.slice((page - 1) * pageSize, page * pageSize).map((image) => ({
+  return images.slice((page - 1) * externalPageSize, page * externalPageSize).map((image) => ({
     ...image,
     id: `image-id-${image.id}`,
     info: `${image.score ? `S${image.score}` : "NS"} | T${image?.tags?.length}`,
