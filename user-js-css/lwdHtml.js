@@ -646,9 +646,8 @@ class LwdHashRouter {
     LwdHashRouter.displayPage(LwdHashRouter.get("href"));
   }
 }
-// LwdHashRouter.refresh();
-
-// addEventListener("hashchange", LwdHashRouter.refresh);
+LwdHashRouter.refresh();
+addEventListener("hashchange", LwdHashRouter.refresh);
 
 const swipeUp = new CustomEvent("swipeup", {
   detail: { name: "cat" },
