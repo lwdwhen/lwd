@@ -3,7 +3,7 @@ function createTopSection() {
   document.body.append(topSection);
   topSection.id = "top-section";
   topSection.className = "explandable";
-  if (navigator.userAgentData.mobile) topSection.className += " mobile";
+  if (mobile) topSection.className += " mobile";
   topSection.onmouseenter = (e) => e.target.classList.add("expanded");
   topSection.onmouseleave = (e) => e.target.classList.remove("expanded");
 
