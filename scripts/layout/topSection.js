@@ -82,6 +82,7 @@ function createTopNavMenu() {
 
   topNavMenu.append(createTopNavLink("galery", "Galery"));
   topNavMenu.append(createTopNavLink("settings", "Settings"));
+  topNavMenu.append(createTopNavLink("external_search", "External Search"));
 
   return topNavMenu;
 }
