@@ -18,6 +18,8 @@ async function renderExternalSearchPage() {
   let currentPage = parseInt(LwdHashRouter.get("page")) || 1;
   console.log("renderExternalSearchPage", externalSearch, imageId, currentPage);
 
+  mainSearchFuntion = (search) => LwdHashRouter.set("external_search", search);
+
   let rerenderNedded = false;
   if (externalSearch != lastExternalSearch) {
     console.log(
@@ -103,14 +105,18 @@ function renderGalery(images, page) {
 }
 
 function serializeGaleryItems(images, page) {
-  return images.slice((page - 1) * externalPageSize, page * externalPageSize).map((image) => ({
-    ...image,
-    id: `image-id-${image.id}`,
-    info: `${image.score ? `S${image.score}` : "NS"} | T${image?.tags?.length}`,
-    hash: { ...LwdHashRouter.params, imageId: image.id },
-    imgOriginal: image.srcOriginal,
-    thumbUrl: image.srcThumb,
-  }));
+  return images
+    .slice((page - 1) * externalPageSize, page * externalPageSize)
+    .map((image) => ({
+      ...image,
+      id: `image-id-${image.id}`,
+      info: `${image.score ? `S${image.score}` : "NS"} | T${
+        image?.tags?.length
+      }`,
+      hash: { ...LwdHashRouter.params, imageId: image.id },
+      imgOriginal: image.srcOriginal,
+      thumbUrl: image.srcThumb,
+    }));
 }
 
 function imageClickAction(item) {

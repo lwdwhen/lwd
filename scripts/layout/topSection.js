@@ -1,3 +1,6 @@
+
+var mainSearchFuntion = () => {}
+
 function createTopSection() {
   topSection = document.createElement("section");
   document.body.append(topSection);
@@ -48,7 +51,7 @@ function createGalerySearch() {
   searchBtn.textContent = "S";
   searchBtn.onclick = (e) => {
     e.preventDefault();
-    routeToGaleryPage(topSearch.value);
+    mainSearchFuntion(topSearch.value);
   };
 
   // sortBySelection = document.createElement("select");
